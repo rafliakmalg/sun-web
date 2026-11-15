@@ -1,4 +1,5 @@
 import { z } from 'zod'
+import { issue, rule } from '@/lib/validation'
 import { categorySchema } from '@/features/categories/schema'
 import { unitSchema } from '@/features/units/schema'
 
@@ -9,23 +10,23 @@ function isNumber(value: string) {
 export const productUnitInputSchema = z.object({
   factor: z
     .string()
-    .refine((value) => isNumber(value) && Number(value) > 0, 'Jumlah harus lebih dari 0')
-    .refine((value) => !value.includes('.') || value.split('.')[1].length <= 6, 'Jumlah maksimal 6 desimal'),
-  unit_id: z.string().min(1, 'Satuan wajib dipilih'),
+    .refine((value) => isNumber(value) && Number(value) > 0, rule.greaterThan(0, 'product.units.factor'))
+    .refine((value) => !value.includes('.') || value.split('.')[1].length <= 6, rule.decimal(6, 'product.units.factor')),
+  unit_id: z.string().min(1, rule.required('product.units.unit_id')),
 })
 
 export const productInputSchema = z
   .object({
     active: z.boolean(),
-    base_unit_id: z.string().min(1, 'Satuan terkecil wajib dipilih'),
-    category_id: z.string().min(1, 'Kategori wajib dipilih'),
+    base_unit_id: z.string().min(1, rule.required('product.base_unit_id')),
+    category_id: z.string().min(1, rule.required('product.category_id')),
     description: z.string().trim(),
     min_stock: z
       .string()
-      .refine((value) => isNumber(value) && Number(value) >= 0, 'Stok minimum harus 0 atau lebih')
-      .refine((value) => !value.includes('.') || value.split('.')[1].length <= 3, 'Stok minimum maksimal 3 desimal'),
-    name: z.string().trim().min(1, 'Nama wajib diisi').max(255, 'Nama maksimal 255 karakter'),
-    sku: z.string().trim().min(1, 'SKU wajib diisi').max(100, 'SKU maksimal 100 karakter'),
+      .refine((value) => isNumber(value) && Number(value) >= 0, rule.minNumber(0, 'product.min_stock'))
+      .refine((value) => !value.includes('.') || value.split('.')[1].length <= 3, rule.decimal(3, 'product.min_stock')),
+    name: z.string().trim().min(1, rule.required('product.name')).max(255, rule.maxString(255, 'product.name')),
+    sku: z.string().trim().min(1, rule.required('product.sku')).max(100, rule.maxString(100, 'product.sku')),
     units: z.array(productUnitInputSchema),
   })
   .superRefine((value, context) => {
@@ -35,13 +36,13 @@ export const productInputSchema = z
       if (unit.unit_id && unit.unit_id === value.base_unit_id) {
         context.addIssue({
           code: 'custom',
-          message: 'Satuan tambahan tidak boleh sama dengan satuan terkecil',
+          message: issue('validation.not_in', 'product.units.unit_id'),
           path: ['units', index, 'unit_id'],
         })
       } else if (unit.unit_id && seen.has(unit.unit_id)) {
         context.addIssue({
           code: 'custom',
-          message: 'Satuan tidak boleh dipilih dua kali',
+          message: issue('validation.distinct', 'product.units.unit_id'),
           path: ['units', index, 'unit_id'],
         })
       }
@@ -75,5 +76,4 @@ export const productSchema = z.object({
 })
 
 export type ProductInput = z.infer<typeof productInputSchema>
-export type ProductUnitInput = z.infer<typeof productUnitInputSchema>
 export type Product = z.infer<typeof productSchema>

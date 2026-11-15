@@ -1,13 +1,22 @@
 import { useMutation } from '@tanstack/react-query'
+import { useEffect } from 'react'
 import { api } from '@/lib/api'
+import { useGet } from '@/lib/request'
 import { useAuth, type AuthUser } from '@/stores/auth'
+import { useLang, type Messages } from '@/stores/lang'
 import type { LoginInput } from './schema'
 
 type LoginResponse = {
   data: {
+    lang: Messages
     token: string
     user: AuthUser
   }
+}
+
+type SessionResponse = {
+  data: AuthUser
+  lang: Messages
 }
 
 export async function logout() {
@@ -27,6 +36,20 @@ export function useLogin() {
 
       return response.data.data
     },
-    onSuccess: ({ token, user }) => login(token, user),
+    onSuccess: ({ lang, token, user }) => {
+      useLang.getState().setMessages(lang)
+      login(token, user)
+    },
   })
+}
+
+export function useSession() {
+  const { data } = useGet<SessionResponse>('/auth/me')
+
+  useEffect(() => {
+    if (data) {
+      useLang.getState().setMessages(data.lang)
+      useAuth.getState().setUser(data.data)
+    }
+  }, [data])
 }

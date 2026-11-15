@@ -5,7 +5,7 @@ import { unitColumns } from './columns'
 export function UnitPage() {
   return (
     <ListOrganism
-      title="Satuan Barang"
+      title="unit"
       basePath="/units"
       defaultSort="code"
       columns={unitColumns}

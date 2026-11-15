@@ -1,12 +1,13 @@
 import { z } from 'zod'
 import { branchSchema } from '@/features/branches/schema'
+import { rule } from '@/lib/validation'
 
 export const warehouseInputSchema = z.object({
   active: z.boolean(),
-  address: z.string().trim().max(255, 'Alamat maksimal 255 karakter'),
-  branch_id: z.string().min(1, 'Cabang wajib dipilih'),
-  code: z.string().trim().min(1, 'Kode wajib diisi').max(50, 'Kode maksimal 50 karakter'),
-  name: z.string().trim().min(1, 'Nama wajib diisi').max(255, 'Nama maksimal 255 karakter'),
+  address: z.string().trim().max(255, rule.maxString(255, 'warehouse.address')),
+  branch_id: z.string().min(1, rule.required('warehouse.branch_id')),
+  code: z.string().trim().min(1, rule.required('warehouse.code')).max(50, rule.maxString(50, 'warehouse.code')),
+  name: z.string().trim().min(1, rule.required('warehouse.name')).max(255, rule.maxString(255, 'warehouse.name')),
 })
 
 export const warehouseSchema = z.object({

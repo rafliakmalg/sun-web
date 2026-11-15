@@ -5,37 +5,37 @@ import type { Warehouse } from './schema'
 export const warehouseColumns: ColumnDef<Warehouse>[] = [
   {
     key: 'code',
-    header: 'Kode',
+    header: 'warehouse.code',
     sortable: true,
     filterable: true,
   },
   {
     key: 'name',
-    header: 'Nama',
+    header: 'warehouse.name',
     sortable: true,
     filterable: true,
   },
   {
     key: 'branch_id',
-    header: 'Cabang',
+    header: 'warehouse.branch_id',
     filterable: true,
     useOptions: useBranchOptions,
     render: (warehouse) => warehouse.branch?.name,
   },
   {
     key: 'address',
-    header: 'Alamat',
+    header: 'warehouse.address',
   },
   {
     key: 'active',
-    header: 'Status',
+    header: 'warehouse.active',
     type: 'boolean',
     labels: ['Aktif', 'Nonaktif'],
     filterable: true,
   },
   {
     key: 'created_at',
-    header: 'Dibuat',
+    header: 'warehouse.created_at',
     type: 'datetime',
     sortable: true,
     filterable: true,

@@ -6,8 +6,10 @@ import { canAccess } from '@/lib/access'
 import { menu } from '@/menu'
 import { useAuth } from '@/stores/auth'
 import { useSidebar } from '@/stores/sidebar'
+import { useTranslate } from '@/lib/lang'
 
 export function SidebarMenuOrganism() {
+  const t = useTranslate()
   const user = useAuth((state) => state.user)
   const opened = useSidebar((state) => state.opened)
   const openGroup = useSidebar((state) => state.open)
@@ -37,13 +39,13 @@ export function SidebarMenuOrganism() {
               <div
                 className={`mini-icon ${active ? 'bg-primary text-white' : 'text-white-50'}`}
                 tabIndex={0}
-                aria-label={group.label}
+                aria-label={t(group.label)}
               >
                 <GroupIcon size={20} />
               </div>
               <div className="mini-flyout">
                 <div className="bg-dark text-white rounded shadow p-2">
-                  <div className="text-white-50 small px-2 pb-1">{group.label}</div>
+                  <div className="text-white-50 small px-2 pb-1">{t(group.label)}</div>
                   <Nav variant="pills" className="flex-column">
                     {group.items
                       .filter((item) => canAccess(role, item.roles))
@@ -58,7 +60,7 @@ export function SidebarMenuOrganism() {
                             className="text-white d-flex align-items-center gap-2"
                           >
                             <ItemIcon />
-                            {item.label}
+                            {t(item.label)}
                           </Nav.Link>
                         )
                       })}
@@ -87,7 +89,7 @@ export function SidebarMenuOrganism() {
               onClick={() => toggle(group.label)}
             >
               <GroupIcon />
-              <span className="flex-grow-1 text-start">{group.label}</span>
+              <span className="flex-grow-1 text-start">{t(group.label)}</span>
               {open ? <ChevronDown /> : <ChevronRight />}
             </button>
             <Collapse in={open}>
@@ -106,7 +108,7 @@ export function SidebarMenuOrganism() {
                           className="text-white d-flex align-items-center gap-2"
                         >
                           <ItemIcon />
-                          {item.label}
+                          {t(item.label)}
                         </Nav.Link>
                       )
                     })}

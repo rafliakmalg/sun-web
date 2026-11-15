@@ -5,7 +5,7 @@ import { RackForm } from './RackForm'
 export function RackFormPage() {
   return (
     <FormTemplate
-      title="Rak"
+      title="rack"
       useOne={useLoadRack}
       renderForm={(rack) => <RackForm rack={rack} />}
     />

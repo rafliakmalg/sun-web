@@ -4,13 +4,13 @@ import type { Category } from './schema'
 export const categoryColumns: ColumnDef<Category>[] = [
   {
     key: 'name',
-    header: 'Nama',
+    header: 'category.name',
     sortable: true,
     filterable: true,
   },
   {
     key: 'created_at',
-    header: 'Dibuat',
+    header: 'category.created_at',
     type: 'datetime',
     sortable: true,
     filterable: true,

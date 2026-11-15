@@ -1,11 +1,12 @@
 import { z } from 'zod'
+import { rule } from '@/lib/validation'
 
 export const branchInputSchema = z.object({
   active: z.boolean(),
-  address: z.string().trim().max(255, 'Alamat maksimal 255 karakter'),
-  code: z.string().trim().min(1, 'Kode wajib diisi').max(50, 'Kode maksimal 50 karakter'),
-  name: z.string().trim().min(1, 'Nama wajib diisi').max(255, 'Nama maksimal 255 karakter'),
-  phone: z.string().trim().max(50, 'Telepon maksimal 50 karakter'),
+  address: z.string().trim().max(255, rule.maxString(255, 'branch.address')),
+  code: z.string().trim().min(1, rule.required('branch.code')).max(50, rule.maxString(50, 'branch.code')),
+  name: z.string().trim().min(1, rule.required('branch.name')).max(255, rule.maxString(255, 'branch.name')),
+  phone: z.string().trim().max(50, rule.maxString(50, 'branch.phone')),
 })
 
 export const branchSchema = z.object({

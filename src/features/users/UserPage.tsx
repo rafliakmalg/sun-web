@@ -5,7 +5,7 @@ import { userColumns } from './columns'
 export function UserPage() {
   return (
     <ListOrganism
-      title="Pengguna"
+      title="user"
       basePath="/users"
       defaultSort="name"
       columns={userColumns}

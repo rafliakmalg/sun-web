@@ -5,7 +5,7 @@ import { UserForm } from './UserForm'
 export function UserFormPage() {
   return (
     <FormTemplate
-      title="Pengguna"
+      title="user"
       useOne={useLoadUser}
       renderForm={(user) => <UserForm user={user} />}
     />

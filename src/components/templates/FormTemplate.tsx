@@ -2,6 +2,7 @@ import { Fragment, type ReactNode } from 'react'
 import { Alert, Card, Spinner } from 'react-bootstrap'
 import { useParams } from 'react-router'
 import { errorMessage } from '@/lib/errors'
+import { useTranslate } from '@/lib/lang'
 
 type Props<T> = {
   title: string
@@ -12,7 +13,8 @@ type Props<T> = {
 export function FormTemplate<T>({ title, useOne, renderForm }: Props<T>) {
   const { id } = useParams()
   const { data, isPending, error } = useOne(id)
-  const heading = `${id ? 'Ubah' : 'Buat'} ${title}`
+  const t = useTranslate()
+  const heading = `${id ? t('edit') : t('create')} ${t(title)}`
 
   if (id && error) {
     return <Alert variant="danger" className="m-4">{errorMessage(error)}</Alert>

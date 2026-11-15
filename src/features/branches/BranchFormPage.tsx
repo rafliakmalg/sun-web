@@ -5,7 +5,7 @@ import { BranchForm } from './BranchForm'
 export function BranchFormPage() {
   return (
     <FormTemplate
-      title="Cabang"
+      title="branch"
       useOne={useLoadBranch}
       renderForm={(branch) => <BranchForm branch={branch} />}
     />

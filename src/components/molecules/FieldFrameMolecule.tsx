@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react'
 import { Form } from 'react-bootstrap'
+import { useTranslate } from '@/lib/lang'
 
 type Props = {
   id: string
@@ -12,6 +13,7 @@ type Props = {
 }
 
 export function FieldFrameMolecule({ id, label, error, className = '', compact, hideLabel, children }: Props) {
+  const t = useTranslate()
   return (
     <div className={`${compact ? '' : 'mb-3'} ${className}`}>
       {label && (
@@ -19,7 +21,7 @@ export function FieldFrameMolecule({ id, label, error, className = '', compact, 
           htmlFor={id}
           className={hideLabel ? 'label-md-hidden' : ''}
         >
-          {label}
+          {t(label)}
         </Form.Label>
       )}
       {children}

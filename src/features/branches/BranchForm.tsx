@@ -50,28 +50,28 @@ export function BranchForm({ branch }: Props) {
       <TextFieldMolecule
         control={control}
         name="code"
-        label="Kode"
+        label="branch.code"
         autoFocus
       />
       <TextFieldMolecule
         control={control}
         name="name"
-        label="Nama"
+        label="branch.name"
       />
       <TextFieldMolecule
         control={control}
         name="phone"
-        label="Telepon"
+        label="branch.phone"
       />
       <ToggleFieldMolecule
         control={control}
         name="active"
-        label="Aktif"
+        label="branch.active"
       />
       <TextareaFieldMolecule
         control={control}
         name="address"
-        label="Alamat"
+        label="branch.address"
       />
     </FormOrganism>
   )

@@ -52,7 +52,7 @@ export function WarehouseForm({ warehouse }: Props) {
       <AutocompleteFieldMolecule
         control={control}
         name="branch_id"
-        label="Cabang"
+        label="warehouse.branch_id"
         useSearch={useBranchOptions}
         initialLabel={warehouse?.branch?.name}
         autoFocus
@@ -60,22 +60,22 @@ export function WarehouseForm({ warehouse }: Props) {
       <TextFieldMolecule
         control={control}
         name="code"
-        label="Kode"
+        label="warehouse.code"
       />
       <TextFieldMolecule
         control={control}
         name="name"
-        label="Nama"
+        label="warehouse.name"
       />
       <ToggleFieldMolecule
         control={control}
         name="active"
-        label="Aktif"
+        label="warehouse.active"
       />
       <TextareaFieldMolecule
         control={control}
         name="address"
-        label="Alamat"
+        label="warehouse.address"
       />
     </FormOrganism>
   )

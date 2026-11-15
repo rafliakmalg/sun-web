@@ -44,7 +44,7 @@ export function CategoryForm({ category }: Props) {
       <TextFieldMolecule
         control={control}
         name="name"
-        label="Nama"
+        label="category.name"
         autoFocus
       />
     </FormOrganism>

@@ -1,8 +1,9 @@
 import { z } from 'zod'
+import { rule } from '@/lib/validation'
 
 export const roleInputSchema = z.object({
-  label: z.string().trim().min(1, 'Label wajib diisi').max(255, 'Label maksimal 255 karakter'),
-  name: z.string().trim().min(1, 'Nama wajib diisi').max(255, 'Nama maksimal 255 karakter'),
+  label: z.string().trim().min(1, rule.required('role.label')).max(255, rule.maxString(255, 'role.label')),
+  name: z.string().trim().min(1, rule.required('role.name')).max(255, rule.maxString(255, 'role.name')),
 })
 
 export const roleSchema = z.object({

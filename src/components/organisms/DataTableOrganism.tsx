@@ -2,6 +2,7 @@ import type { ReactNode } from 'react'
 import { Alert, Spinner, Table } from 'react-bootstrap'
 import type { SortDir } from '@/lib/types'
 import { alignClass, renderCell, type ColumnDef } from '@/lib/columns'
+import { useTranslate } from '@/lib/lang'
 
 type Props<T> = {
   columns: ColumnDef<T>[]
@@ -16,6 +17,7 @@ type Props<T> = {
 }
 
 export function DataTableOrganism<T>({ columns, actions, rows, rowKey, isLoading, error, sortBy, sortDir, onSort }: Props<T>) {
+  const t = useTranslate()
   if (error) {
     return <Alert variant="danger">{error}</Alert>
   }
@@ -39,11 +41,11 @@ export function DataTableOrganism<T>({ columns, actions, rows, rowKey, isLoading
                   className="btn btn-link p-0 fw-bold text-decoration-none text-body"
                   onClick={() => onSort(column.key)}
                 >
-                  {column.header}
+                  {t(column.header)}
                   {column.key === sortBy && (sortDir === 'asc' ? ' ▲' : ' ▼')}
                 </button>
               ) : (
-                column.header
+                t(column.header)
               )}
             </th>
           ))}

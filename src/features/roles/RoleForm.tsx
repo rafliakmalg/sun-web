@@ -45,13 +45,13 @@ export function RoleForm({ role }: Props) {
       <TextFieldMolecule
         control={control}
         name="label"
-        label="Label"
+        label="role.label"
         autoFocus
       />
       <TextFieldMolecule
         control={control}
         name="name"
-        label="Nama"
+        label="role.name"
       />
     </FormOrganism>
   )

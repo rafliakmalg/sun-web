@@ -5,7 +5,7 @@ import { roleColumns } from './columns'
 export function RolePage() {
   return (
     <ListOrganism
-      title="Role"
+      title="role"
       basePath="/roles"
       defaultSort="label"
       columns={roleColumns}

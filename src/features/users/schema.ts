@@ -1,21 +1,25 @@
 import { z } from 'zod'
 import { roleSchema } from '@/features/roles/schema'
+import { rule } from '@/lib/validation'
 
 export function userInputSchema(editing: boolean) {
   return z.object({
     active: z.boolean(),
-    email: z.union([z.literal(''), z.email('Email tidak valid').max(255, 'Email maksimal 255 karakter')]),
-    name: z.string().trim().min(1, 'Nama wajib diisi').max(255, 'Nama maksimal 255 karakter'),
+    email: z.union([
+      z.literal(''),
+      z.email(rule.email('user.email')).max(255, rule.maxString(255, 'user.email')),
+    ]),
+    name: z.string().trim().min(1, rule.required('user.name')).max(255, rule.maxString(255, 'user.name')),
     password: editing
-      ? z.string().refine((value) => value === '' || value.length >= 8, 'Kata sandi minimal 8 karakter')
-      : z.string().min(8, 'Kata sandi wajib diisi, minimal 8 karakter'),
-    role_id: z.string().min(1, 'Role wajib dipilih'),
+      ? z.string().refine((value) => value === '' || value.length >= 8, rule.minString(8, 'user.password'))
+      : z.string().min(1, rule.required('user.password')).min(8, rule.minString(8, 'user.password')),
+    role_id: z.string().min(1, rule.required('user.role_id')),
     username: z
       .string()
       .trim()
-      .min(1, 'Username wajib diisi')
-      .max(50, 'Username maksimal 50 karakter')
-      .regex(/^[A-Za-z0-9_-]+$/, 'Username hanya boleh huruf, angka, strip, dan garis bawah'),
+      .min(1, rule.required('user.username'))
+      .max(50, rule.maxString(50, 'user.username'))
+      .regex(/^[A-Za-z0-9_-]+$/, rule.alphaDash('user.username')),
   })
 }
 

@@ -50,7 +50,7 @@ export function RackForm({ rack }: Props) {
       <AutocompleteFieldMolecule
         control={control}
         name="warehouse_id"
-        label="Gudang"
+        label="rack.warehouse_id"
         useSearch={useWarehouseOptions}
         initialLabel={rack?.warehouse?.name}
         autoFocus
@@ -58,17 +58,17 @@ export function RackForm({ rack }: Props) {
       <TextFieldMolecule
         control={control}
         name="code"
-        label="Kode"
+        label="rack.code"
       />
       <TextFieldMolecule
         control={control}
         name="name"
-        label="Nama"
+        label="rack.name"
       />
       <ToggleFieldMolecule
         control={control}
         name="active"
-        label="Aktif"
+        label="rack.active"
       />
     </FormOrganism>
   )

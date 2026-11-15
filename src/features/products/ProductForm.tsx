@@ -61,43 +61,43 @@ export function ProductForm({ product }: Props) {
       <TextFieldMolecule
         control={control}
         name="sku"
-        label="SKU"
+        label="product.sku"
         autoFocus
       />
       <TextFieldMolecule
         control={control}
         name="name"
-        label="Nama"
+        label="product.name"
       />
       <AutocompleteFieldMolecule
         control={control}
         name="category_id"
-        label="Kategori"
+        label="product.category_id"
         useSearch={useCategoryOptions}
         initialLabel={product?.category?.name}
       />
       <AutocompleteFieldMolecule
         control={control}
         name="base_unit_id"
-        label="Satuan terkecil"
+        label="product.base_unit_id"
         useSearch={useUnitOptions}
         initialLabel={product?.base_unit?.name}
       />
       <NumberFieldMolecule
         control={control}
         name="min_stock"
-        label="Stok minimum"
+        label="product.min_stock"
         decimals={3}
       />
       <ToggleFieldMolecule
         control={control}
         name="active"
-        label="Aktif"
+        label="product.active"
       />
       <TextareaFieldMolecule
         control={control}
         name="description"
-        label="Deskripsi"
+        label="product.description"
       />
       <ProductUnitsOrganism
         control={control}

@@ -3,6 +3,7 @@ import { Badge, Button, Form, Offcanvas } from 'react-bootstrap'
 import { AutocompleteInputMolecule } from '@/components/molecules/AutocompleteInputMolecule'
 import { operatorLabels, operatorsByKind, type FilterCondition, type FilterOperator } from '@/lib/filters'
 import { filterKind, type ColumnDef } from '@/lib/columns'
+import { useTranslate } from '@/lib/lang'
 
 type Props<T> = {
   columns: ColumnDef<T>[]
@@ -17,6 +18,7 @@ type ValueInputProps<T> = {
 }
 
 export function FilterBuilderOrganism<T>({ columns, conditions, onApply }: Props<T>) {
+  const t = useTranslate()
   const fields = columns.filter((column) => column.filterable)
   const [open, setOpen] = useState(false)
   const [rows, setRows] = useState(conditions)
@@ -111,7 +113,7 @@ export function FilterBuilderOrganism<T>({ columns, conditions, onApply }: Props
                   <Form.Select value={row.field} onChange={(event) => changeField(index, event.target.value)}>
                     {fields.map((field) => (
                       <option key={field.key} value={field.key}>
-                        {field.header}
+                        {t(field.header)}
                       </option>
                     ))}
                   </Form.Select>

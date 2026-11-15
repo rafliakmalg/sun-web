@@ -5,7 +5,7 @@ import { CategoryForm } from './CategoryForm'
 export function CategoryFormPage() {
   return (
     <FormTemplate
-      title="Kategori"
+      title="category"
       useOne={useLoadCategory}
       renderForm={(category) => <CategoryForm category={category} />}
     />

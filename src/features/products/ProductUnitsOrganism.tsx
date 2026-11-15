@@ -6,6 +6,7 @@ import { AutocompleteFieldMolecule } from '@/components/molecules/AutocompleteFi
 import { NumberFieldMolecule } from '@/components/molecules/NumberFieldMolecule'
 import { useUnitOptions } from '@/features/units/api'
 import type { Product, ProductInput } from './schema'
+import { useTranslate } from '@/lib/lang'
 
 type Props = {
   control: Control<ProductInput>
@@ -14,19 +15,20 @@ type Props = {
 
 export function ProductUnitsOrganism({ control, product }: Props) {
   const { fields, append, remove } = useFieldArray({ control, name: 'units' })
+  const t = useTranslate()
   const baseUnitId = useWatch({ control, name: 'base_unit_id' })
   const baseUnitName = useUnitOptions('', !!baseUnitId).options.find((unit) => unit.value === baseUnitId)?.label
 
   return (
     <div className="form-wide mb-3">
       <div className="d-flex justify-content-between align-items-center mb-1">
-        <Form.Label className="mb-0">Satuan tambahan</Form.Label>
+        <Form.Label className="mb-0">{t('product.units')}</Form.Label>
         <Button
           size="sm"
           variant="outline-primary"
           onClick={() => append({ unit_id: '', factor: '' })}
         >
-          + Tambah satuan
+          + {t('create')} {t('unit')}
         </Button>
       </div>
       <Form.Text className="d-block mb-2">
@@ -36,8 +38,8 @@ export function ProductUnitsOrganism({ control, product }: Props) {
       {fields.length > 0 && (
         <div className="border rounded">
           <Row className="g-2 mx-0 px-2 py-2 bg-body-tertiary text-muted small d-none d-md-flex">
-            <Col md={6}>Satuan</Col>
-            <Col md={5}>Jumlah</Col>
+            <Col md={6}>{t('product.units.unit_id')}</Col>
+            <Col md={5}>{t('product.units.factor')}</Col>
             <Col md={1} />
           </Row>
           {fields.map((field, index) => (
@@ -49,7 +51,7 @@ export function ProductUnitsOrganism({ control, product }: Props) {
                 <AutocompleteFieldMolecule
                   control={control}
                   name={`units.${index}.unit_id`}
-                  label="Satuan"
+                  label="product.units.unit_id"
                   useSearch={useUnitOptions}
                   initialLabel={product?.units?.find((unit) => String(unit.unit_id) === field.unit_id)?.unit?.name}
                   compact
@@ -60,9 +62,9 @@ export function ProductUnitsOrganism({ control, product }: Props) {
                 <NumberFieldMolecule
                   control={control}
                   name={`units.${index}.factor`}
-                  label="Jumlah"
+                  label="product.units.factor"
                   decimals={6}
-                  suffix={baseUnitName ?? 'satuan terkecil'}
+                  suffix={baseUnitName ?? t('product.base_unit_id').toLowerCase()}
                   compact
                   hideLabel
                 />

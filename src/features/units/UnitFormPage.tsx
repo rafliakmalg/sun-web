@@ -5,7 +5,7 @@ import { UnitForm } from './UnitForm'
 export function UnitFormPage() {
   return (
     <FormTemplate
-      title="Satuan Barang"
+      title="unit"
       useOne={useLoadUnit}
       renderForm={(unit) => <UnitForm unit={unit} />}
     />

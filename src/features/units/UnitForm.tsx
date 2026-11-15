@@ -45,13 +45,13 @@ export function UnitForm({ unit }: Props) {
       <TextFieldMolecule
         control={control}
         name="code"
-        label="Kode"
+        label="unit.code"
         autoFocus
       />
       <TextFieldMolecule
         control={control}
         name="name"
-        label="Nama"
+        label="unit.name"
       />
     </FormOrganism>
   )

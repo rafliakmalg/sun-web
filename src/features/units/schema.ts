@@ -1,8 +1,9 @@
 import { z } from 'zod'
+import { rule } from '@/lib/validation'
 
 export const unitInputSchema = z.object({
-  code: z.string().trim().min(1, 'Kode wajib diisi').max(50, 'Kode maksimal 50 karakter'),
-  name: z.string().trim().min(1, 'Nama wajib diisi').max(255, 'Nama maksimal 255 karakter'),
+  code: z.string().trim().min(1, rule.required('unit.code')).max(50, rule.maxString(50, 'unit.code')),
+  name: z.string().trim().min(1, rule.required('unit.name')).max(255, rule.maxString(255, 'unit.name')),
 })
 
 export const unitSchema = z.object({

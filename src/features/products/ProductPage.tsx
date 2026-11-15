@@ -5,7 +5,7 @@ import { productColumns } from './columns'
 export function ProductPage() {
   return (
     <ListOrganism
-      title="Barang"
+      title="product"
       basePath="/products"
       defaultSort="name"
       columns={productColumns}

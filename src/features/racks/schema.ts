@@ -1,11 +1,12 @@
 import { z } from 'zod'
 import { warehouseSchema } from '@/features/warehouses/schema'
+import { rule } from '@/lib/validation'
 
 export const rackInputSchema = z.object({
   active: z.boolean(),
-  code: z.string().trim().min(1, 'Kode wajib diisi').max(50, 'Kode maksimal 50 karakter'),
-  name: z.string().trim().max(255, 'Nama maksimal 255 karakter'),
-  warehouse_id: z.string().min(1, 'Gudang wajib dipilih'),
+  code: z.string().trim().min(1, rule.required('rack.code')).max(50, rule.maxString(50, 'rack.code')),
+  name: z.string().trim().max(255, rule.maxString(255, 'rack.name')),
+  warehouse_id: z.string().min(1, rule.required('rack.warehouse_id')),
 })
 
 export const rackSchema = z.object({

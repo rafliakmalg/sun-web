@@ -4,34 +4,34 @@ import type { Branch } from './schema'
 export const branchColumns: ColumnDef<Branch>[] = [
   {
     key: 'code',
-    header: 'Kode',
+    header: 'branch.code',
     sortable: true,
     filterable: true,
   },
   {
     key: 'name',
-    header: 'Nama',
+    header: 'branch.name',
     sortable: true,
     filterable: true,
   },
   {
     key: 'phone',
-    header: 'Telepon',
+    header: 'branch.phone',
   },
   {
     key: 'address',
-    header: 'Alamat',
+    header: 'branch.address',
   },
   {
     key: 'active',
-    header: 'Status',
+    header: 'branch.active',
     type: 'boolean',
     labels: ['Aktif', 'Nonaktif'],
     filterable: true,
   },
   {
     key: 'created_at',
-    header: 'Dibuat',
+    header: 'branch.created_at',
     type: 'datetime',
     sortable: true,
     filterable: true,

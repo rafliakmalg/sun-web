@@ -5,7 +5,7 @@ import { warehouseColumns } from './columns'
 export function WarehousePage() {
   return (
     <ListOrganism
-      title="Gudang"
+      title="warehouse"
       basePath="/warehouses"
       defaultSort="name"
       columns={warehouseColumns}

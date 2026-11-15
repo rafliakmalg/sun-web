@@ -52,31 +52,31 @@ export function UserForm({ user }: Props) {
       <TextFieldMolecule
         control={control}
         name="name"
-        label="Nama"
+        label="user.name"
         autoFocus
       />
       <TextFieldMolecule
         control={control}
         name="username"
-        label="Username"
+        label="user.username"
       />
       <TextFieldMolecule
         control={control}
         name="email"
-        label="Email"
+        label="user.email"
         type="email"
       />
       <AutocompleteFieldMolecule
         control={control}
         name="role_id"
-        label="Role"
+        label="user.role_id"
         useSearch={useRoleOptions}
         initialLabel={user?.role?.label}
       />
       <TextFieldMolecule
         control={control}
         name="password"
-        label="Kata sandi"
+        label="user.password"
         type="password"
         autoComplete="new-password"
         placeholder={user ? 'Kosongkan jika tidak diubah' : undefined}
@@ -84,7 +84,7 @@ export function UserForm({ user }: Props) {
       <ToggleFieldMolecule
         control={control}
         name="active"
-        label="Aktif"
+        label="user.active"
       />
     </FormOrganism>
   )

@@ -5,7 +5,7 @@ import { rackColumns } from './columns'
 export function RackPage() {
   return (
     <ListOrganism
-      title="Rak"
+      title="rack"
       basePath="/racks"
       defaultSort="code"
       columns={rackColumns}

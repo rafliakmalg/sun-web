@@ -5,7 +5,7 @@ import { ProductForm } from './ProductForm'
 export function ProductFormPage() {
   return (
     <FormTemplate
-      title="Barang"
+      title="product"
       useOne={useLoadProduct}
       renderForm={(product) => <ProductForm product={product} />}
     />

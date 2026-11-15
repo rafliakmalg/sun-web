@@ -5,7 +5,7 @@ import { RoleForm } from './RoleForm'
 export function RoleFormPage() {
   return (
     <FormTemplate
-      title="Role"
+      title="role"
       useOne={useLoadRole}
       renderForm={(role) => <RoleForm role={role} />}
     />

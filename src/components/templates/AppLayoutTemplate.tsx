@@ -4,7 +4,7 @@ import { Button } from 'react-bootstrap'
 import { BoxArrowRight, List } from 'react-bootstrap-icons'
 import { Outlet } from 'react-router'
 import { SidebarMenuOrganism } from '@/components/organisms/SidebarMenuOrganism'
-import { logout } from '@/features/auth/api'
+import { logout, useSession } from '@/features/auth/api'
 import { onSavedElsewhere } from '@/lib/tabs'
 import { useAuth } from '@/stores/auth'
 import { useSidebar } from '@/stores/sidebar'
@@ -15,6 +15,8 @@ export function AppLayoutTemplate() {
   const collapsed = useSidebar((state) => state.collapsed)
   const toggleCollapsed = useSidebar((state) => state.toggleCollapsed)
   const queryClient = useQueryClient()
+
+  useSession()
 
   useEffect(
     () =>

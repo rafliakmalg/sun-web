@@ -5,7 +5,7 @@ import { branchColumns } from './columns'
 export function BranchPage() {
   return (
     <ListOrganism
-      title="Cabang"
+      title="branch"
       basePath="/branches"
       defaultSort="name"
       columns={branchColumns}

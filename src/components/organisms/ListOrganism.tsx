@@ -12,6 +12,7 @@ import { useListParams } from '@/hooks/useListParams'
 import type { ColumnDef } from '@/lib/columns'
 import { errorMessage } from '@/lib/errors'
 import type { ListParams, Paginated } from '@/lib/types'
+import { useTranslate } from '@/lib/lang'
 
 type Props<T extends { id: number }> = {
   title: string
@@ -40,6 +41,7 @@ export function ListOrganism<T extends { id: number }>({
   const { params, update } = useListParams(defaultSort, defaultPerPage)
   const { data, isPending, error } = useList(params)
   const remove = useDelete()
+  const t = useTranslate()
   const [deleting, setDeleting] = useState<T | null>(null)
 
   function closeDelete() {
@@ -68,14 +70,14 @@ export function ListOrganism<T extends { id: number }>({
 
   return (
     <>
-      <title>{`List ${title}`}</title>
-      <PageHeaderMolecule title={title}>
+      <title>{`${t('list')} ${t(title)}`}</title>
+      <PageHeaderMolecule title={t(title)}>
         <Button
           href={`${basePath}/create`}
           target="_blank"
           rel="noopener"
         >
-          <Plus size={20} /> Buat {title}
+          <Plus size={20} /> {t('create')} {t(title)}
         </Button>
       </PageHeaderMolecule>
 
@@ -117,8 +119,9 @@ export function ListOrganism<T extends { id: number }>({
 
       {deleting && (
         <ConfirmDialogOrganism
-          title={`Hapus ${title}`}
-          message={`Hapus ${title.toLowerCase()} "${itemName(deleting)}"?`}
+          title={`${t('delete')} ${t(title)}`}
+          message={`${t('delete')} ${t(title).toLowerCase()} "${itemName(deleting)}"?`}
+          confirmLabel={t('delete')}
           busy={remove.isPending}
           onConfirm={() => confirmDelete(deleting)}
           onHide={closeDelete}

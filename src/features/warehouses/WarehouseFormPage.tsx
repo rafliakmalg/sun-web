@@ -5,7 +5,7 @@ import { WarehouseForm } from './WarehouseForm'
 export function WarehouseFormPage() {
   return (
     <FormTemplate
-      title="Gudang"
+      title="warehouse"
       useOne={useLoadWarehouse}
       renderForm={(warehouse) => <WarehouseForm warehouse={warehouse} />}
     />

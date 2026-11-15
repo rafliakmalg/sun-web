@@ -5,7 +5,7 @@ import { categoryColumns } from './columns'
 export function CategoryPage() {
   return (
     <ListOrganism
-      title="Kategori"
+      title="category"
       basePath="/categories"
       defaultSort="name"
       columns={categoryColumns}
