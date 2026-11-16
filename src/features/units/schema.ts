@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { rule } from '@/lib/validation'
+import { rule } from '@/utils'
 
 export const unitInputSchema = z.object({
   code: z.string().trim().min(1, rule.required('unit.code')).max(50, rule.maxString(50, 'unit.code')),

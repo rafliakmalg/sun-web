@@ -1,28 +1,37 @@
 import type { ReactNode } from 'react'
-import { Alert, Spinner, Table } from 'react-bootstrap'
-import type { SortDir } from '@/lib/types'
-import { alignClass, renderCell, type ColumnDef } from '@/lib/columns'
-import { useTranslate } from '@/lib/lang'
+import { Table } from 'react-bootstrap'
+import { ErrorAlertMolecule } from '@/components/molecules/ErrorAlertMolecule'
+import { LoadingMolecule } from '@/components/molecules/LoadingMolecule'
+import { alignClass, renderCell, useTranslate, type ColumnDef, type SortDir } from '@/utils'
 
 type Props<T> = {
   columns: ColumnDef<T>[]
-  actions?: (row: T) => ReactNode
+  error?: unknown
+  loading?: boolean
+  onSort?: (key: string) => void
+  renderActions?: (row: T) => ReactNode
   rows: T[] | undefined
-  rowKey: (row: T) => number | string
-  isLoading: boolean
-  error?: string | null
-  sortBy: string
-  sortDir: SortDir
-  onSort: (key: string) => void
+  sortBy?: string
+  sortDir?: SortDir
 }
 
-export function DataTableOrganism<T>({ columns, actions, rows, rowKey, isLoading, error, sortBy, sortDir, onSort }: Props<T>) {
+export function DataTableOrganism<T extends { id: number | string }>({
+  columns: allColumns,
+  error,
+  loading,
+  onSort,
+  renderActions,
+  rows,
+  sortBy,
+  sortDir,
+}: Props<T>) {
   const t = useTranslate()
-  if (error) {
-    return <Alert variant="danger">{error}</Alert>
-  }
+  const columns = allColumns.filter((column) => !column.hidden)
+  const columnCount = columns.length + (renderActions ? 1 : 0)
 
-  const columnCount = columns.length + (actions ? 1 : 0)
+  if (error) {
+    return <ErrorAlertMolecule error={error} />
+  }
 
   return (
     <Table
@@ -32,10 +41,10 @@ export function DataTableOrganism<T>({ columns, actions, rows, rowKey, isLoading
     >
       <thead>
         <tr>
-          {actions && <th className="sticky-start" />}
+          {renderActions && <th className="sticky-start" />}
           {columns.map((column) => (
             <th key={column.key} className={alignClass(column)}>
-              {column.sortable ? (
+              {column.sortable && onSort ? (
                 <button
                   type="button"
                   className="btn btn-link p-0 fw-bold text-decoration-none text-body"
@@ -52,14 +61,14 @@ export function DataTableOrganism<T>({ columns, actions, rows, rowKey, isLoading
         </tr>
       </thead>
       <tbody>
-        {isLoading && (
+        {loading && (
           <tr>
             <td colSpan={columnCount} className="text-center py-4">
-              <Spinner animation="border" size="sm" /> Memuat data...
+              <LoadingMolecule />
             </td>
           </tr>
         )}
-        {!isLoading && rows?.length === 0 && (
+        {!loading && rows?.length === 0 && (
           <tr>
             <td colSpan={columnCount} className="text-center text-muted py-4">
               Belum ada data.
@@ -67,8 +76,8 @@ export function DataTableOrganism<T>({ columns, actions, rows, rowKey, isLoading
           </tr>
         )}
         {rows?.map((row) => (
-          <tr key={rowKey(row)}>
-            {actions && <td className="sticky-start">{actions(row)}</td>}
+          <tr key={row.id}>
+            {renderActions && <td className="sticky-start">{renderActions(row)}</td>}
             {columns.map((column) => (
               <td key={column.key} className={alignClass(column)}>
                 {renderCell(column, row)}

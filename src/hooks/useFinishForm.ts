@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router'
-import { announceSaved } from '@/lib/tabs'
+import { announceSaved } from '@/utils'
 
 export function useFinishForm(listPath: string) {
   const navigate = useNavigate()

@@ -1,15 +1,16 @@
 import type { FormEventHandler, ReactNode } from 'react'
-import { Alert, Button, Card, Form } from 'react-bootstrap'
+import { Button, Card, Form } from 'react-bootstrap'
+import { ErrorAlertMolecule } from '@/components/molecules/ErrorAlertMolecule'
 
 type Props = {
-  onSubmit: FormEventHandler<HTMLFormElement>
-  onCancel: () => void
-  submitting: boolean
-  error?: string | null
   children: ReactNode
+  error?: string | null
+  onCancel: () => void
+  onSubmit: FormEventHandler<HTMLFormElement>
+  submitting: boolean
 }
 
-export function FormOrganism({ onSubmit, onCancel, submitting, error, children }: Props) {
+export function FormOrganism({ children, error, onCancel, onSubmit, submitting }: Props) {
   return (
     <Form
       noValidate
@@ -19,12 +20,7 @@ export function FormOrganism({ onSubmit, onCancel, submitting, error, children }
       <Card.Body className="flex-grow-1 p-4">
         <div className="form-grid form-container">
           {error && (
-            <Alert
-              variant="danger"
-              className="form-wide"
-            >
-              {error}
-            </Alert>
+            <ErrorAlertMolecule error={error} className="form-wide" />
           )}
           {children}
         </div>

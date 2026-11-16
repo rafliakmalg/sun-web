@@ -1,7 +1,7 @@
 import { z } from 'zod'
-import { issue, rule } from '@/lib/validation'
 import { categorySchema } from '@/features/categories/schema'
 import { unitSchema } from '@/features/units/schema'
+import { issue, rule } from '@/utils'
 
 function isNumber(value: string) {
   return value.trim() !== '' && Number.isFinite(Number(value))

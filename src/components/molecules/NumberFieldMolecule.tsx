@@ -2,32 +2,35 @@ import { useLayoutEffect, useRef, type ChangeEvent } from 'react'
 import { Form, InputGroup } from 'react-bootstrap'
 import { useController, type FieldValues } from 'react-hook-form'
 import { FieldFrameMolecule } from '@/components/molecules/FieldFrameMolecule'
-import type { FieldProps } from '@/lib/fields'
+import type { FieldProps } from '@/utils'
 
 type Props<T extends FieldValues> = FieldProps<T> & {
+  allowNegative?: boolean
   decimals?: number
-  suffix?: string
   placeholder?: string
+  suffix?: string
 }
 
 function formatNumber(raw: string) {
-  const [integer, decimal] = raw.split('.')
+  const sign = raw.startsWith('-') ? '-' : ''
+  const [integer, decimal] = raw.slice(sign.length).split('.')
   const grouped = integer.replace(/\B(?=(\d{3})+(?!\d))/g, '.')
 
-  return decimal === undefined ? grouped : `${grouped},${decimal}`
+  return `${sign}${decimal === undefined ? grouped : `${grouped},${decimal}`}`
 }
 
 export function NumberFieldMolecule<T extends FieldValues>({
-  control,
-  name,
-  label,
-  decimals = 0,
-  suffix,
-  placeholder,
+  allowNegative,
   autoFocus,
   compact,
+  control,
+  decimals = 0,
   disabled,
   hideLabel,
+  label,
+  name,
+  placeholder,
+  suffix,
 }: Props<T>) {
   const { field, fieldState } = useController({ control, name })
   const input = useRef<HTMLInputElement | null>(null)
@@ -55,16 +58,16 @@ export function NumberFieldMolecule<T extends FieldValues>({
     caret.current = null
   }, [display])
 
-  function handleChange(event: ChangeEvent<HTMLInputElement>) {
+  function onInputChange(event: ChangeEvent<HTMLInputElement>) {
     const target = event.target
     const before = target.value.slice(0, target.selectionStart ?? target.value.length)
 
     caret.current = before.replace(/[^\d,]/g, '').length
-    field.onChange(parseNumber(target.value, decimals))
+    field.onChange(parseNumber(target.value, decimals, allowNegative))
   }
 
-  function handleBlur() {
-    field.onChange(raw.replace(/\.$/, ''))
+  function onInputBlur() {
+    field.onChange(raw === '-' ? '' : raw.replace(/\.$/, ''))
     field.onBlur()
   }
 
@@ -92,8 +95,8 @@ export function NumberFieldMolecule<T extends FieldValues>({
           autoFocus={autoFocus}
           disabled={disabled}
           isInvalid={!!fieldState.error}
-          onBlur={handleBlur}
-          onChange={handleChange}
+          onBlur={onInputBlur}
+          onChange={onInputChange}
         />
         {suffix && <InputGroup.Text>{suffix}</InputGroup.Text>}
       </InputGroup>
@@ -101,15 +104,17 @@ export function NumberFieldMolecule<T extends FieldValues>({
   )
 }
 
-function parseNumber(input: string, decimals: number) {
+function parseNumber(input: string, decimals: number, allowNegative?: boolean) {
+  const negative = allowNegative && input.trim().startsWith('-')
   const hasComma = decimals > 0 && input.includes(',')
   const [integerPart, ...rest] = input.split(',')
   const integer = integerPart.replace(/\D/g, '').replace(/^0+(?=\d)/, '')
   const decimal = rest.join('').replace(/\D/g, '').slice(0, decimals)
+  const sign = negative ? '-' : ''
 
   if (integer === '' && !hasComma) {
-    return ''
+    return sign
   }
 
-  return `${integer || '0'}${hasComma ? `.${decimal}` : ''}`
+  return `${sign}${integer || '0'}${hasComma ? `.${decimal}` : ''}`
 }

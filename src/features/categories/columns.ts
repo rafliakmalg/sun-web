@@ -1,4 +1,4 @@
-import type { ColumnDef } from '@/lib/columns'
+import type { ColumnDef } from '@/utils'
 import type { Category } from './schema'
 
 export const categoryColumns: ColumnDef<Category>[] = [

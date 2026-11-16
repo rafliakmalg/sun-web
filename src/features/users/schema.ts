@@ -1,6 +1,6 @@
 import { z } from 'zod'
 import { roleSchema } from '@/features/roles/schema'
-import { rule } from '@/lib/validation'
+import { rule } from '@/utils'
 
 export function userInputSchema(editing: boolean) {
   return z.object({

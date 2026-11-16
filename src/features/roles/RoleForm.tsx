@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form'
 import { TextFieldMolecule } from '@/components/molecules/TextFieldMolecule'
 import { FormOrganism } from '@/components/organisms/FormOrganism'
 import { useFinishForm } from '@/hooks/useFinishForm'
-import { applyApiErrors } from '@/lib/errors'
+import { applyApiErrors } from '@/utils'
 import { useSaveRole } from './api'
 import { roleInputSchema, type Role, type RoleInput } from './schema'
 

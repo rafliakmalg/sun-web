@@ -1,5 +1,5 @@
 import { useRoleOptions } from '@/features/roles/api'
-import type { ColumnDef } from '@/lib/columns'
+import type { ColumnDef } from '@/utils'
 import type { User } from './schema'
 
 export const userColumns: ColumnDef<User>[] = [

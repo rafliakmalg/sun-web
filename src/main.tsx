@@ -5,7 +5,7 @@ import { RouterProvider } from 'react-router/dom'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './index.css'
 import { ToastOrganism } from '@/components/organisms/ToastOrganism'
-import { queryClient } from '@/lib/queryClient'
+import { queryClient } from '@/utils'
 import { router } from './router'
 
 createRoot(document.getElementById('root')!).render(

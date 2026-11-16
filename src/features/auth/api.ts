@@ -1,9 +1,8 @@
 import { useMutation } from '@tanstack/react-query'
 import { useEffect } from 'react'
-import { api } from '@/lib/api'
-import { useGet } from '@/lib/request'
 import { useAuth, type AuthUser } from '@/stores/auth'
 import { useLang, type Messages } from '@/stores/lang'
+import { api, useGet } from '@/utils'
 import type { LoginInput } from './schema'
 
 type LoginResponse = {

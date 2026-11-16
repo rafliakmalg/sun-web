@@ -1,36 +1,36 @@
 import { useState, type KeyboardEvent, type Ref } from 'react'
 import { Form } from 'react-bootstrap'
 import { useDebounced } from '@/hooks/useDebounced'
-import type { FieldOption, OptionSearch } from '@/lib/fields'
+import type { FieldOption, OptionSearch } from '@/utils'
 
 type Props = {
-  value: string
-  onChange: (value: string) => void
-  useSearch: OptionSearch
-  id?: string
-  name?: string
-  initialLabel?: string
-  placeholder?: string
-  invalid?: boolean
   autoFocus?: boolean
   disabled?: boolean
+  id?: string
+  initialLabel?: string
   inputRef?: Ref<HTMLInputElement>
+  invalid?: boolean
+  name?: string
   onBlur?: () => void
+  onChange: (value: string) => void
+  placeholder?: string
+  useSearch: OptionSearch
+  value: string
 }
 
 export function AutocompleteInputMolecule({
-  value,
-  onChange,
-  useSearch,
-  id,
-  name,
-  initialLabel = '',
-  placeholder = 'Ketik untuk mencari...',
-  invalid,
   autoFocus,
   disabled,
+  id,
+  initialLabel = '',
   inputRef,
+  invalid,
+  name,
   onBlur,
+  onChange,
+  placeholder = 'Ketik untuk mencari...',
+  useSearch,
+  value,
 }: Props) {
   const [text, setText] = useState('')
   const [typed, setTyped] = useState(false)
@@ -50,13 +50,13 @@ export function AutocompleteInputMolecule({
     setOpen(false)
   }
 
-  function handleBlur() {
+  function onInputBlur() {
     setOpen(false)
     setTyped(false)
     onBlur?.()
   }
 
-  function handleChange(next: string) {
+  function onInputChange(next: string) {
     onChange('')
     setText(next)
     setTyped(true)
@@ -64,7 +64,7 @@ export function AutocompleteInputMolecule({
     setActive(0)
   }
 
-  function handleKeyDown(event: KeyboardEvent) {
+  function onInputKeyDown(event: KeyboardEvent) {
     if (event.key === 'ArrowDown') {
       event.preventDefault()
       setOpen(true)
@@ -94,16 +94,20 @@ export function AutocompleteInputMolecule({
         isInvalid={invalid}
         role="combobox"
         aria-expanded={open}
-        onBlur={handleBlur}
-        onChange={(event) => handleChange(event.target.value)}
+        onBlur={onInputBlur}
+        onChange={(event) => onInputChange(event.target.value)}
         onFocus={() => setOpen(true)}
-        onKeyDown={handleKeyDown}
+        onKeyDown={onInputKeyDown}
       />
       {open && (
         <div
           className="list-group position-absolute w-100 shadow"
           role="listbox"
-          style={{ zIndex: 1050, maxHeight: 240, overflowY: 'auto' }}
+          style={{
+            zIndex: 1050,
+            maxHeight: 240,
+            overflowY: 'auto',
+          }}
         >
           {loading && options.length === 0 && <div className="list-group-item text-muted">Memuat...</div>}
           {!loading && options.length === 0 && <div className="list-group-item text-muted">Tidak ditemukan</div>}

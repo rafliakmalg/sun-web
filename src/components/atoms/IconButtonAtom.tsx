@@ -1,26 +1,51 @@
+import type { MouseEvent } from 'react'
 import { Button, OverlayTrigger, Tooltip } from 'react-bootstrap'
 import type { Icon } from 'react-bootstrap-icons'
+import { useNavigate } from 'react-router'
 
-type Props = {
+type ClickProps = {
+  newTab?: never
+  onClick: () => void
+  to?: never
+}
+
+type LinkProps = {
+  newTab?: boolean
+  onClick?: never
+  to: string
+}
+
+export type IconButtonProps = {
   icon: Icon
   label: string
   variant?: string
-  href?: string
-  newTab?: boolean
-  onClick?: () => void
-}
+} & (ClickProps | LinkProps)
 
-export function IconButtonAtom({ icon: IconComponent, label, variant = 'outline-secondary', href, newTab, onClick }: Props) {
+export function IconButtonAtom({ icon: IconComponent, label, newTab, onClick, to, variant = 'outline-secondary' }: IconButtonProps) {
+  const navigate = useNavigate()
+
+  function onButtonClick(event: MouseEvent) {
+    if (to && !newTab && !event.ctrlKey && !event.metaKey) {
+      event.preventDefault()
+      navigate(to)
+    }
+
+    onClick?.()
+  }
+
   return (
-    <OverlayTrigger placement="top" overlay={<Tooltip>{label}</Tooltip>}>
+    <OverlayTrigger
+      placement="top"
+      overlay={<Tooltip>{label}</Tooltip>}
+    >
       <Button
         size="sm"
         variant={variant}
-        href={href}
+        href={to}
         target={newTab ? '_blank' : undefined}
         rel={newTab ? 'noopener' : undefined}
         aria-label={label}
-        onClick={onClick}
+        onClick={onButtonClick}
       >
         <IconComponent />
       </Button>

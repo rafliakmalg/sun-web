@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { rule } from '@/lib/validation'
+import { rule } from '@/utils'
 
 export const roleInputSchema = z.object({
   label: z.string().trim().min(1, rule.required('role.label')).max(255, rule.maxString(255, 'role.label')),

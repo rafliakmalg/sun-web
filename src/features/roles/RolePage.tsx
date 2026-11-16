@@ -1,17 +1,21 @@
-import { ListOrganism } from '@/components/organisms/ListOrganism'
+import { ListTemplate } from '@/components/templates/ListTemplate'
 import { useDeleteRole, useReadRole } from './api'
 import { roleColumns } from './columns'
 
 export function RolePage() {
   return (
-    <ListOrganism
+    <ListTemplate
       title="role"
-      basePath="/roles"
-      defaultSort="label"
       columns={roleColumns}
-      itemName={(role) => role.label}
+      defSort="label"
       useList={useReadRole}
+      canCreate
+      urlCreate="/roles/create"
+      canEdit
+      urlEdit={(role) => `/roles/${role.id}/edit`}
+      canDelete
       useDelete={useDeleteRole}
+      itemName={(role) => role.label}
     />
   )
 }

@@ -1,7 +1,7 @@
 import { Alert } from 'react-bootstrap'
 import { Outlet } from 'react-router'
-import { canAccess } from '@/lib/access'
 import { useAuth } from '@/stores/auth'
+import { canAccess } from '@/utils'
 
 type Props = {
   allow: string[]

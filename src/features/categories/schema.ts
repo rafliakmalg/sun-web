@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { rule } from '@/lib/validation'
+import { rule } from '@/utils'
 
 export const categoryInputSchema = z.object({
   name: z.string().trim().min(1, rule.required('category.name')).max(255, rule.maxString(255, 'category.name')),

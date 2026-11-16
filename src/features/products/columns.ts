@@ -1,6 +1,6 @@
 import { useCategoryOptions } from '@/features/categories/api'
 import { useUnitOptions } from '@/features/units/api'
-import type { ColumnDef } from '@/lib/columns'
+import type { ColumnDef } from '@/utils'
 import type { Product } from './schema'
 
 export const productColumns: ColumnDef<Product>[] = [

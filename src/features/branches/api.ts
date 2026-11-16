@@ -1,6 +1,4 @@
-import { useOptions } from '@/lib/options'
-import { useGet, useSend } from '@/lib/request'
-import type { ListParams, Paginated } from '@/lib/types'
+import { useGet, useOptions, useSend, type ListParams, type Paginated } from '@/utils'
 import type { Branch, BranchInput } from './schema'
 
 const path = '/branches'

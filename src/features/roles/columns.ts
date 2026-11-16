@@ -1,4 +1,4 @@
-import type { ColumnDef } from '@/lib/columns'
+import type { ColumnDef } from '@/utils'
 import type { Role } from './schema'
 
 export const roleColumns: ColumnDef<Role>[] = [

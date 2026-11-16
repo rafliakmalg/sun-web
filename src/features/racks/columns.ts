@@ -1,5 +1,5 @@
 import { useWarehouseOptions } from '@/features/warehouses/api'
-import type { ColumnDef } from '@/lib/columns'
+import type { ColumnDef } from '@/utils'
 import type { Rack } from './schema'
 
 export const rackColumns: ColumnDef<Rack>[] = [

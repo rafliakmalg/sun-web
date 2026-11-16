@@ -1,5 +1,4 @@
-import { useGet, useSend } from '@/lib/request'
-import type { ListParams, Paginated } from '@/lib/types'
+import { useGet, useOptions, useSend, type FilterCondition, type ListParams, type Paginated } from '@/utils'
 import type { Rack, RackInput } from './schema'
 
 const path = '/racks'
@@ -10,6 +9,10 @@ export function useDeleteRack() {
 
 export function useLoadRack(id: string | undefined) {
   return useGet<{ data: Rack }>(`${path}/${id}`, {}, { enabled: !!id })
+}
+
+export function useRackOptions(search: string, enabled: boolean, filters: FilterCondition[] = []) {
+  return useOptions(path, 'code', search, enabled, filters)
 }
 
 export function useReadRack(params: ListParams) {

@@ -1,10 +1,11 @@
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Alert, Button, Card, Form } from 'react-bootstrap'
+import { Button, Card, Form } from 'react-bootstrap'
 import { useForm } from 'react-hook-form'
 import { Navigate } from 'react-router'
+import { ErrorAlertMolecule } from '@/components/molecules/ErrorAlertMolecule'
 import { TextFieldMolecule } from '@/components/molecules/TextFieldMolecule'
-import { applyApiErrors } from '@/lib/errors'
 import { useAuth } from '@/stores/auth'
+import { applyApiErrors } from '@/utils'
 import { useLogin } from './api'
 import { loginSchema, type LoginInput } from './schema'
 
@@ -35,7 +36,7 @@ export function LoginPage() {
       <Card style={{ width: 380 }}>
         <Card.Body className="p-4">
           <h1 className="h4 mb-4 text-center">Masuk ke WMS</h1>
-          {errors.root && <Alert variant="danger">{errors.root.message}</Alert>}
+          {errors.root && <ErrorAlertMolecule error={errors.root.message} />}
           <Form noValidate onSubmit={handleSubmit(onSubmit)}>
             <TextFieldMolecule
               control={control}

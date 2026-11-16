@@ -1,6 +1,6 @@
 import { z } from 'zod'
 import { branchSchema } from '@/features/branches/schema'
-import { rule } from '@/lib/validation'
+import { rule } from '@/utils'
 
 export const warehouseInputSchema = z.object({
   active: z.boolean(),

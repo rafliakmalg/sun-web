@@ -1,17 +1,21 @@
-import { ListOrganism } from '@/components/organisms/ListOrganism'
+import { ListTemplate } from '@/components/templates/ListTemplate'
 import { useDeleteProduct, useReadProduct } from './api'
 import { productColumns } from './columns'
 
 export function ProductPage() {
   return (
-    <ListOrganism
+    <ListTemplate
       title="product"
-      basePath="/products"
-      defaultSort="name"
       columns={productColumns}
-      itemName={(product) => product.name}
+      defSort="name"
       useList={useReadProduct}
+      canCreate
+      urlCreate="/products/create"
+      canEdit
+      urlEdit={(product) => `/products/${product.id}/edit`}
+      canDelete
       useDelete={useDeleteProduct}
+      itemName={(product) => product.name}
     />
   )
 }

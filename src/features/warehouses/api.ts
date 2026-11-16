@@ -1,6 +1,4 @@
-import { useOptions } from '@/lib/options'
-import { useGet, useSend } from '@/lib/request'
-import type { ListParams, Paginated } from '@/lib/types'
+import { useGet, useOptions, useSend, type FilterCondition, type ListParams, type Paginated } from '@/utils'
 import type { Warehouse, WarehouseInput } from './schema'
 
 const path = '/warehouses'
@@ -25,6 +23,6 @@ export function useSaveWarehouse(warehouse: Warehouse | null) {
   )
 }
 
-export function useWarehouseOptions(search: string, enabled: boolean) {
-  return useOptions(path, 'name', search, enabled)
+export function useWarehouseOptions(search: string, enabled: boolean, filters: FilterCondition[] = []) {
+  return useOptions(path, 'name', search, enabled, filters)
 }

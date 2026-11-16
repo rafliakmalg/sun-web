@@ -1,7 +1,7 @@
 import { Form } from 'react-bootstrap'
 import { useController, type FieldValues } from 'react-hook-form'
 import { FieldFrameMolecule } from '@/components/molecules/FieldFrameMolecule'
-import type { FieldProps } from '@/lib/fields'
+import type { FieldProps } from '@/utils'
 
 type Mode = 'date' | 'time' | 'datetime'
 
@@ -9,15 +9,21 @@ type Props<T extends FieldValues> = FieldProps<T> & {
   mode?: Mode
 }
 
-const inputTypes = { date: 'date', time: 'time', datetime: 'datetime-local' } as const
+const inputTypes = {
+  date: 'date',
+  time: 'time',
+  datetime: 'datetime-local',
+} as const
 
 export function DateTimeFieldMolecule<T extends FieldValues>({
+  autoFocus,
+  compact,
   control,
-  name,
+  disabled,
+  hideLabel,
   label,
   mode = 'datetime',
-  autoFocus,
-  disabled,
+  name,
 }: Props<T>) {
   const { field, fieldState } = useController({ control, name })
 
@@ -26,6 +32,8 @@ export function DateTimeFieldMolecule<T extends FieldValues>({
       id={name}
       label={label}
       error={fieldState.error?.message}
+      compact={compact}
+      hideLabel={hideLabel}
     >
       <Form.Control
         {...field}

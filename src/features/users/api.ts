@@ -1,5 +1,4 @@
-import { useGet, useSend } from '@/lib/request'
-import type { ListParams, Paginated } from '@/lib/types'
+import { useGet, useOptions, useSend, type ListParams, type Paginated } from '@/utils'
 import type { User, UserPayload } from './schema'
 
 const path = '/users'
@@ -18,4 +17,8 @@ export function useReadUser(params: ListParams) {
 
 export function useSaveUser(user: User | null) {
   return useSend<UserPayload>(user ? 'put' : 'post', user ? `${path}/${user.id}` : path, [path])
+}
+
+export function useUserOptions(search: string, enabled: boolean) {
+  return useOptions(path, 'name', search, enabled)
 }

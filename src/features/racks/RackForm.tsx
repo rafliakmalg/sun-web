@@ -6,7 +6,7 @@ import { ToggleFieldMolecule } from '@/components/molecules/ToggleFieldMolecule'
 import { FormOrganism } from '@/components/organisms/FormOrganism'
 import { useWarehouseOptions } from '@/features/warehouses/api'
 import { useFinishForm } from '@/hooks/useFinishForm'
-import { applyApiErrors } from '@/lib/errors'
+import { applyApiErrors } from '@/utils'
 import { useSaveRack } from './api'
 import { rackInputSchema, type Rack, type RackInput } from './schema'
 

@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { rule } from '@/lib/validation'
+import { rule } from '@/utils'
 
 export const branchInputSchema = z.object({
   active: z.boolean(),

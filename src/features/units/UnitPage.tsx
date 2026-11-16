@@ -1,17 +1,21 @@
-import { ListOrganism } from '@/components/organisms/ListOrganism'
+import { ListTemplate } from '@/components/templates/ListTemplate'
 import { useDeleteUnit, useReadUnit } from './api'
 import { unitColumns } from './columns'
 
 export function UnitPage() {
   return (
-    <ListOrganism
+    <ListTemplate
       title="unit"
-      basePath="/units"
-      defaultSort="code"
       columns={unitColumns}
-      itemName={(unit) => unit.name}
+      defSort="code"
       useList={useReadUnit}
+      canCreate
+      urlCreate="/units/create"
+      canEdit
+      urlEdit={(unit) => `/units/${unit.id}/edit`}
+      canDelete
       useDelete={useDeleteUnit}
+      itemName={(unit) => unit.name}
     />
   )
 }

@@ -1,17 +1,21 @@
-import { ListOrganism } from '@/components/organisms/ListOrganism'
+import { ListTemplate } from '@/components/templates/ListTemplate'
 import { useDeleteWarehouse, useReadWarehouse } from './api'
 import { warehouseColumns } from './columns'
 
 export function WarehousePage() {
   return (
-    <ListOrganism
+    <ListTemplate
       title="warehouse"
-      basePath="/warehouses"
-      defaultSort="name"
       columns={warehouseColumns}
-      itemName={(warehouse) => warehouse.name}
+      defSort="name"
       useList={useReadWarehouse}
+      canCreate
+      urlCreate="/warehouses/create"
+      canEdit
+      urlEdit={(warehouse) => `/warehouses/${warehouse.id}/edit`}
+      canDelete
       useDelete={useDeleteWarehouse}
+      itemName={(warehouse) => warehouse.name}
     />
   )
 }

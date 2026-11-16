@@ -1,7 +1,7 @@
-import { Form } from 'react-bootstrap'
 import { useController, type FieldValues } from 'react-hook-form'
 import { FieldFrameMolecule } from '@/components/molecules/FieldFrameMolecule'
-import type { FieldOption, FieldProps } from '@/lib/fields'
+import { SelectInputMolecule } from '@/components/molecules/SelectInputMolecule'
+import type { FieldOption, FieldProps } from '@/utils'
 
 type Props<T extends FieldValues> = FieldProps<T> & {
   options: FieldOption[]
@@ -9,13 +9,15 @@ type Props<T extends FieldValues> = FieldProps<T> & {
 }
 
 export function SelectFieldMolecule<T extends FieldValues>({
+  autoFocus,
+  compact,
   control,
-  name,
+  disabled,
+  hideLabel,
   label,
+  name,
   options,
   placeholder = 'Pilih...',
-  autoFocus,
-  disabled,
 }: Props<T>) {
   const { field, fieldState } = useController({ control, name })
 
@@ -24,22 +26,22 @@ export function SelectFieldMolecule<T extends FieldValues>({
       id={name}
       label={label}
       error={fieldState.error?.message}
+      compact={compact}
+      hideLabel={hideLabel}
     >
-      <Form.Select
-        {...field}
-        value={field.value ?? ''}
+      <SelectInputMolecule
         id={name}
+        name={field.name}
+        inputRef={field.ref}
+        value={field.value ?? ''}
+        onChange={field.onChange}
+        onBlur={field.onBlur}
+        options={options}
+        placeholder={placeholder}
+        invalid={!!fieldState.error}
         autoFocus={autoFocus}
         disabled={disabled}
-        isInvalid={!!fieldState.error}
-      >
-        <option value="">{placeholder}</option>
-        {options.map((option) => (
-          <option key={option.value} value={option.value}>
-            {option.label}
-          </option>
-        ))}
-      </Form.Select>
+      />
     </FieldFrameMolecule>
   )
 }

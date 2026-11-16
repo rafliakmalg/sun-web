@@ -1,17 +1,21 @@
-import { ListOrganism } from '@/components/organisms/ListOrganism'
+import { ListTemplate } from '@/components/templates/ListTemplate'
 import { useDeleteBranch, useReadBranch } from './api'
 import { branchColumns } from './columns'
 
 export function BranchPage() {
   return (
-    <ListOrganism
+    <ListTemplate
       title="branch"
-      basePath="/branches"
-      defaultSort="name"
       columns={branchColumns}
-      itemName={(branch) => branch.name}
+      defSort="name"
       useList={useReadBranch}
+      canCreate
+      urlCreate="/branches/create"
+      canEdit
+      urlEdit={(branch) => `/branches/${branch.id}/edit`}
+      canDelete
       useDelete={useDeleteBranch}
+      itemName={(branch) => branch.name}
     />
   )
 }

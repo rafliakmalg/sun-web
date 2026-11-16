@@ -2,9 +2,9 @@ import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
 type SidebarState = {
-  opened: string[]
   collapsed: boolean
   open: (label: string) => void
+  opened: string[]
   toggle: (label: string) => void
   toggleCollapsed: () => void
 }

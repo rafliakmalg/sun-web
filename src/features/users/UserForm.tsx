@@ -4,9 +4,9 @@ import { AutocompleteFieldMolecule } from '@/components/molecules/AutocompleteFi
 import { TextFieldMolecule } from '@/components/molecules/TextFieldMolecule'
 import { ToggleFieldMolecule } from '@/components/molecules/ToggleFieldMolecule'
 import { FormOrganism } from '@/components/organisms/FormOrganism'
-import { useFinishForm } from '@/hooks/useFinishForm'
-import { applyApiErrors } from '@/lib/errors'
 import { useRoleOptions } from '@/features/roles/api'
+import { useFinishForm } from '@/hooks/useFinishForm'
+import { applyApiErrors } from '@/utils'
 import { useSaveUser } from './api'
 import { userInputSchema, type User, type UserInput } from './schema'
 

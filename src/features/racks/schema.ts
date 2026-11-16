@@ -1,6 +1,6 @@
 import { z } from 'zod'
 import { warehouseSchema } from '@/features/warehouses/schema'
-import { rule } from '@/lib/validation'
+import { rule } from '@/utils'
 
 export const rackInputSchema = z.object({
   active: z.boolean(),

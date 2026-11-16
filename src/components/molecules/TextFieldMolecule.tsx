@@ -1,23 +1,25 @@
 import { Form } from 'react-bootstrap'
 import { useController, type FieldValues } from 'react-hook-form'
 import { FieldFrameMolecule } from '@/components/molecules/FieldFrameMolecule'
-import type { FieldProps } from '@/lib/fields'
+import type { FieldProps } from '@/utils'
 
 type Props<T extends FieldValues> = FieldProps<T> & {
-  type?: 'text' | 'email' | 'password'
-  placeholder?: string
   autoComplete?: string
+  placeholder?: string
+  type?: 'text' | 'email' | 'password'
 }
 
 export function TextFieldMolecule<T extends FieldValues>({
-  control,
-  name,
-  label,
-  type = 'text',
-  placeholder,
   autoComplete,
   autoFocus,
+  compact,
+  control,
   disabled,
+  hideLabel,
+  label,
+  name,
+  placeholder,
+  type = 'text',
 }: Props<T>) {
   const { field, fieldState } = useController({ control, name })
 
@@ -26,6 +28,8 @@ export function TextFieldMolecule<T extends FieldValues>({
       id={name}
       label={label}
       error={fieldState.error?.message}
+      compact={compact}
+      hideLabel={hideLabel}
     >
       <Form.Control
         {...field}

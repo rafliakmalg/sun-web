@@ -1,9 +1,7 @@
 import { useEffect, useState } from 'react'
-import { Badge, Button, Form, Offcanvas } from 'react-bootstrap'
-import { AutocompleteInputMolecule } from '@/components/molecules/AutocompleteInputMolecule'
-import { operatorLabels, operatorsByKind, type FilterCondition, type FilterOperator } from '@/lib/filters'
-import { filterKind, type ColumnDef } from '@/lib/columns'
-import { useTranslate } from '@/lib/lang'
+import { Badge, Button, Offcanvas } from 'react-bootstrap'
+import { FilterRowMolecule } from '@/components/molecules/FilterRowMolecule'
+import { filterKind, operatorsByKind, type ColumnDef, type FilterCondition, type FilterOperator } from '@/utils'
 
 type Props<T> = {
   columns: ColumnDef<T>[]
@@ -11,14 +9,7 @@ type Props<T> = {
   onApply: (conditions: FilterCondition[]) => void
 }
 
-type ValueInputProps<T> = {
-  column: ColumnDef<T>
-  condition: FilterCondition
-  onChange: (value: string) => void
-}
-
 export function FilterBuilderOrganism<T>({ columns, conditions, onApply }: Props<T>) {
-  const t = useTranslate()
   const fields = columns.filter((column) => column.filterable)
   const [open, setOpen] = useState(false)
   const [rows, setRows] = useState(conditions)
@@ -69,10 +60,14 @@ export function FilterBuilderOrganism<T>({ columns, conditions, onApply }: Props
   function newRow(column: ColumnDef<T>): FilterCondition {
     const operator = operatorsByKind[filterKind(column)][0]
 
-    return { field: column.key, operator, value: operator === 'null' ? '1' : '' }
+    return {
+      field: column.key,
+      operator,
+      value: operator === 'null' ? '1' : '',
+    }
   }
 
-  function reset() {
+  function onReset() {
     setRows([])
     onApply([])
   }
@@ -108,40 +103,16 @@ export function FilterBuilderOrganism<T>({ columns, conditions, onApply }: Props
             }
 
             return (
-              <div key={index} className="border rounded p-2 mb-3">
-                <div className="d-flex gap-2 mb-2">
-                  <Form.Select value={row.field} onChange={(event) => changeField(index, event.target.value)}>
-                    {fields.map((field) => (
-                      <option key={field.key} value={field.key}>
-                        {t(field.header)}
-                      </option>
-                    ))}
-                  </Form.Select>
-                  <Button
-                    variant="outline-danger"
-                    aria-label="Hapus filter"
-                    onClick={() => setRows(rows.filter((_, position) => position !== index))}
-                  >
-                    ×
-                  </Button>
-                </div>
-                <Form.Select
-                  className="mb-2"
-                  value={row.operator}
-                  onChange={(event) => changeOperator(index, event.target.value as FilterOperator)}
-                >
-                  {operatorsByKind[filterKind(column)].map((operator) => (
-                    <option key={operator} value={operator}>
-                      {operatorLabels[operator]}
-                    </option>
-                  ))}
-                </Form.Select>
-                <ValueInput
-                  column={column}
-                  condition={row}
-                  onChange={(value) => change(index, { value })}
-                />
-              </div>
+              <FilterRowMolecule
+                key={index}
+                fields={fields}
+                column={column}
+                condition={row}
+                onField={(key) => changeField(index, key)}
+                onOperator={(operator) => changeOperator(index, operator)}
+                onValue={(value) => change(index, { value })}
+                onRemove={() => setRows(rows.filter((_, position) => position !== index))}
+              />
             )
           })}
 
@@ -156,7 +127,7 @@ export function FilterBuilderOrganism<T>({ columns, conditions, onApply }: Props
             <Button
               variant="outline-secondary"
               size="sm"
-              onClick={reset}
+              onClick={onReset}
             >
               Reset
             </Button>
@@ -175,73 +146,4 @@ function isComplete({ operator, value }: FilterCondition) {
   }
 
   return value !== ''
-}
-
-function ValueInput<T>({ column, condition, onChange }: ValueInputProps<T>) {
-  const kind = filterKind(column)
-  const { operator, value } = condition
-
-  if (operator === 'null') {
-    return (
-      <Form.Select value={value} onChange={(event) => onChange(event.target.value)}>
-        <option value="1">Kosong</option>
-        <option value="0">Terisi</option>
-      </Form.Select>
-    )
-  }
-
-  if (kind === 'option' && column.useOptions) {
-    return (
-      <AutocompleteInputMolecule
-        key={column.key}
-        value={value}
-        onChange={onChange}
-        useSearch={column.useOptions}
-        placeholder="Ketik atau pilih..."
-      />
-    )
-  }
-
-  if (kind === 'boolean') {
-    return (
-      <Form.Select value={value} onChange={(event) => onChange(event.target.value)}>
-        <option value="">Pilih...</option>
-        <option value="1">{column.labels?.[0] ?? 'Ya'}</option>
-        <option value="0">{column.labels?.[1] ?? 'Tidak'}</option>
-      </Form.Select>
-    )
-  }
-
-  const type = kind === 'date' ? 'date' : kind === 'number' && operator !== 'in' ? 'number' : 'text'
-
-  if (operator === 'between') {
-    const [from = '', to = ''] = value.split(',')
-
-    return (
-      <div className="d-flex gap-2">
-        <Form.Control
-          type={type}
-          step="any"
-          value={from}
-          onChange={(event) => onChange(`${event.target.value},${to}`)}
-        />
-        <Form.Control
-          type={type}
-          step="any"
-          value={to}
-          onChange={(event) => onChange(`${from},${event.target.value}`)}
-        />
-      </div>
-    )
-  }
-
-  return (
-    <Form.Control
-      type={type}
-      step="any"
-      value={value}
-      placeholder={operator === 'in' ? 'Pisahkan dengan koma' : undefined}
-      onChange={(event) => onChange(event.target.value)}
-    />
-  )
 }

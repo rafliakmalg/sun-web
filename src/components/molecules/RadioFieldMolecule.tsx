@@ -1,20 +1,22 @@
 import { Form } from 'react-bootstrap'
 import { useController, type FieldValues } from 'react-hook-form'
 import { FieldFrameMolecule } from '@/components/molecules/FieldFrameMolecule'
-import type { FieldOption, FieldProps } from '@/lib/fields'
+import type { FieldOption, FieldProps } from '@/utils'
 
 type Props<T extends FieldValues> = FieldProps<T> & {
-  options: FieldOption[]
   inline?: boolean
+  options: FieldOption[]
 }
 
 export function RadioFieldMolecule<T extends FieldValues>({
+  compact,
   control,
-  name,
-  label,
-  options,
-  inline = true,
   disabled,
+  hideLabel,
+  inline = true,
+  label,
+  name,
+  options,
 }: Props<T>) {
   const { field, fieldState } = useController({ control, name })
 
@@ -23,6 +25,8 @@ export function RadioFieldMolecule<T extends FieldValues>({
       id={`${name}-0`}
       label={label}
       error={fieldState.error?.message}
+      compact={compact}
+      hideLabel={hideLabel}
     >
       <div>
         {options.map((option, index) => (

@@ -1,5 +1,5 @@
 import { useBranchOptions } from '@/features/branches/api'
-import type { ColumnDef } from '@/lib/columns'
+import type { ColumnDef } from '@/utils'
 import type { Warehouse } from './schema'
 
 export const warehouseColumns: ColumnDef<Warehouse>[] = [

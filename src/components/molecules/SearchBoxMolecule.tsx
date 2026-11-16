@@ -2,12 +2,12 @@ import { useEffect, useState } from 'react'
 import { Form } from 'react-bootstrap'
 
 type Props = {
-  value: string
   onChange: (value: string) => void
   placeholder?: string
+  value: string
 }
 
-export function SearchBoxMolecule({ value, onChange, placeholder = 'Cari...' }: Props) {
+export function SearchBoxMolecule({ onChange, placeholder = 'Cari...', value }: Props) {
   const [text, setText] = useState(value)
   const [syncedValue, setSyncedValue] = useState(value)
 

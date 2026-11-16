@@ -1,32 +1,39 @@
 import { Fragment, type ReactNode } from 'react'
-import { Alert, Card, Spinner } from 'react-bootstrap'
+import { Card } from 'react-bootstrap'
 import { useParams } from 'react-router'
-import { errorMessage } from '@/lib/errors'
-import { useTranslate } from '@/lib/lang'
+import { ErrorAlertMolecule } from '@/components/molecules/ErrorAlertMolecule'
+import { LoadingMolecule } from '@/components/molecules/LoadingMolecule'
+import { useTranslate } from '@/utils'
+
+type OneHook<T> = (id: string | undefined) => { data?: { data: T }; isPending: boolean; error: unknown }
 
 type Props<T> = {
-  title: string
-  useOne: (id: string | undefined) => { data?: { data: T }; isPending: boolean; error: unknown }
+  heading?: string
   renderForm: (item: T | null) => ReactNode
+  title: string
+  useOne?: OneHook<T>
 }
 
-export function FormTemplate<T>({ title, useOne, renderForm }: Props<T>) {
+export function FormTemplate<T>({
+  heading: headingKey,
+  renderForm,
+  title,
+  useOne = useNoItem,
+}: Props<T>) {
   const { id } = useParams()
   const { data, isPending, error } = useOne(id)
   const t = useTranslate()
-  const heading = `${id ? t('edit') : t('create')} ${t(title)}`
+  const heading = headingKey ? t(headingKey) : `${id ? t('edit') : t('create')} ${t(title)}`
 
   if (id && error) {
-    return <Alert variant="danger" className="m-4">{errorMessage(error)}</Alert>
+    return <ErrorAlertMolecule error={error} className="m-4" />
   }
 
   if (id && isPending) {
     return (
       <>
         <title>{heading}</title>
-        <p className="p-4">
-          <Spinner animation="border" size="sm" /> Memuat data...
-        </p>
+        <LoadingMolecule className="p-4" />
       </>
     )
   }
@@ -42,4 +49,12 @@ export function FormTemplate<T>({ title, useOne, renderForm }: Props<T>) {
       </Card>
     </>
   )
+}
+
+function useNoItem() {
+  return {
+    data: undefined,
+    isPending: false,
+    error: null,
+  }
 }

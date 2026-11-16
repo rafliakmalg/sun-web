@@ -1,17 +1,18 @@
-import { Box, BoxSeam, Building, Gear, Grid3x3Gap, People, Rulers, ShieldLock, Shop, Tags, type Icon } from 'react-bootstrap-icons'
+import { ArrowLeftRight, Box, Boxes, BoxSeam, Building, Gear, Grid3x3Gap, Layers, People, Rulers, ShieldLock, Shop, Sliders, Tags, Truck, type Icon } from 'react-bootstrap-icons'
+import { canAccess } from '@/utils'
 
 export type MenuItem = {
-  to: string
-  label: string
   icon: Icon
+  label: string
   roles?: string[]
+  to: string
 }
 
 export type MenuGroup = {
-  label: string
   icon: Icon
-  roles?: string[]
   items: MenuItem[]
+  label: string
+  roles?: string[]
 }
 
 export const menu: MenuGroup[] = [
@@ -28,6 +29,16 @@ export const menu: MenuGroup[] = [
     ],
   },
   {
+    label: 'stock',
+    icon: Boxes,
+    items: [
+      { to: '/inventories', label: 'inventory', icon: Layers },
+      { to: '/movements', label: 'movement', icon: ArrowLeftRight },
+      { to: '/adjustments', label: 'adjustment', icon: Sliders },
+      { to: '/handovers', label: 'handover', icon: Truck },
+    ],
+  },
+  {
     label: 'settings',
     icon: Gear,
     roles: ['admin'],
@@ -37,3 +48,17 @@ export const menu: MenuGroup[] = [
     ],
   },
 ]
+
+export function isActive(group: MenuGroup, pathname: string) {
+  return group.items.some((item) => pathname.startsWith(item.to))
+}
+
+export function visibleMenu(role: string | undefined) {
+  return menu
+    .filter((group) => canAccess(role, group.roles))
+    .map((group) => ({
+      ...group,
+      items: group.items.filter((item) => canAccess(role, item.roles)),
+    }))
+    .filter((group) => group.items.length > 0)
+}

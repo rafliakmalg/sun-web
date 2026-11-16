@@ -1,19 +1,20 @@
 import type { ReactNode } from 'react'
 import { Form } from 'react-bootstrap'
-import { useTranslate } from '@/lib/lang'
+import { useTranslate } from '@/utils'
 
 type Props = {
-  id: string
-  label?: string
-  error?: string
+  children: ReactNode
   className?: string
   compact?: boolean
+  error?: string
   hideLabel?: boolean
-  children: ReactNode
+  id: string
+  label?: string
 }
 
-export function FieldFrameMolecule({ id, label, error, className = '', compact, hideLabel, children }: Props) {
+export function FieldFrameMolecule({ children, className = '', compact, error, hideLabel, id, label }: Props) {
   const t = useTranslate()
+
   return (
     <div className={`${compact ? '' : 'mb-3'} ${className}`}>
       {label && (

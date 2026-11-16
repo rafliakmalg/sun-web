@@ -1,17 +1,21 @@
-import { ListOrganism } from '@/components/organisms/ListOrganism'
+import { ListTemplate } from '@/components/templates/ListTemplate'
 import { useDeleteRack, useReadRack } from './api'
 import { rackColumns } from './columns'
 
 export function RackPage() {
   return (
-    <ListOrganism
+    <ListTemplate
       title="rack"
-      basePath="/racks"
-      defaultSort="code"
       columns={rackColumns}
-      itemName={(rack) => rack.code}
+      defSort="code"
       useList={useReadRack}
+      canCreate
+      urlCreate="/racks/create"
+      canEdit
+      urlEdit={(rack) => `/racks/${rack.id}/edit`}
+      canDelete
       useDelete={useDeleteRack}
+      itemName={(rack) => rack.code}
     />
   )
 }

@@ -1,17 +1,21 @@
-import { ListOrganism } from '@/components/organisms/ListOrganism'
+import { ListTemplate } from '@/components/templates/ListTemplate'
 import { useDeleteUser, useReadUser } from './api'
 import { userColumns } from './columns'
 
 export function UserPage() {
   return (
-    <ListOrganism
+    <ListTemplate
       title="user"
-      basePath="/users"
-      defaultSort="name"
       columns={userColumns}
-      itemName={(user) => user.name}
+      defSort="name"
       useList={useReadUser}
+      canCreate
+      urlCreate="/users/create"
+      canEdit
+      urlEdit={(user) => `/users/${user.id}/edit`}
+      canDelete
       useDelete={useDeleteUser}
+      itemName={(user) => user.name}
     />
   )
 }

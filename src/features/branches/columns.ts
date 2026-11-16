@@ -1,4 +1,4 @@
-import type { ColumnDef } from '@/lib/columns'
+import type { ColumnDef } from '@/utils'
 import type { Branch } from './schema'
 
 export const branchColumns: ColumnDef<Branch>[] = [

@@ -1,5 +1,4 @@
-import { useGet, useSend } from '@/lib/request'
-import type { ListParams, Paginated } from '@/lib/types'
+import { useGet, useOptions, useSend, type ListParams, type Paginated } from '@/utils'
 import type { Product, ProductInput } from './schema'
 
 const path = '/products'
@@ -10,6 +9,10 @@ export function useDeleteProduct() {
 
 export function useLoadProduct(id: string | undefined) {
   return useGet<{ data: Product }>(`${path}/${id}`, {}, { enabled: !!id })
+}
+
+export function useProductOptions(search: string, enabled: boolean) {
+  return useOptions(path, 'name', search, enabled)
 }
 
 export function useReadProduct(params: ListParams) {

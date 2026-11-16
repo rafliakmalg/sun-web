@@ -1,10 +1,9 @@
 import { Form } from 'react-bootstrap'
 import { useController, type FieldValues } from 'react-hook-form'
 import { FieldFrameMolecule } from '@/components/molecules/FieldFrameMolecule'
-import type { FieldProps } from '@/lib/fields'
-import { useTranslate } from '@/lib/lang'
+import { useTranslate, type FieldProps } from '@/utils'
 
-export function ToggleFieldMolecule<T extends FieldValues>({ control, name, label, disabled }: FieldProps<T>) {
+export function ToggleFieldMolecule<T extends FieldValues>({ compact, control, disabled, label, name }: FieldProps<T>) {
   const t = useTranslate()
   const { field, fieldState } = useController({ control, name })
 
@@ -12,6 +11,7 @@ export function ToggleFieldMolecule<T extends FieldValues>({ control, name, labe
     <FieldFrameMolecule
       id={name}
       error={fieldState.error?.message}
+      compact={compact}
       className="form-toggle"
     >
       <Form.Check

@@ -1,21 +1,23 @@
 import { Form } from 'react-bootstrap'
 import { useController, type FieldValues } from 'react-hook-form'
 import { FieldFrameMolecule } from '@/components/molecules/FieldFrameMolecule'
-import type { FieldProps } from '@/lib/fields'
+import type { FieldProps } from '@/utils'
 
 type Props<T extends FieldValues> = FieldProps<T> & {
-  rows?: number
   placeholder?: string
+  rows?: number
 }
 
 export function TextareaFieldMolecule<T extends FieldValues>({
-  control,
-  name,
-  label,
-  rows = 3,
-  placeholder,
   autoFocus,
+  compact,
+  control,
   disabled,
+  hideLabel,
+  label,
+  name,
+  placeholder,
+  rows = 3,
 }: Props<T>) {
   const { field, fieldState } = useController({ control, name })
 
@@ -24,6 +26,8 @@ export function TextareaFieldMolecule<T extends FieldValues>({
       id={name}
       label={label}
       error={fieldState.error?.message}
+      compact={compact}
+      hideLabel={hideLabel}
       className="form-wide"
     >
       <Form.Control

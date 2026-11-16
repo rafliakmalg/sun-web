@@ -1,27 +1,27 @@
 import { Form, Pagination as BootstrapPagination } from 'react-bootstrap'
 
 type Props = {
-  page: number
-  lastPage: number
   from: number | null
-  to: number | null
-  total: number
-  perPage: number
-  perPageOptions?: number[]
+  lastPage: number
   onChange: (page: number) => void
   onPerPageChange: (perPage: number) => void
+  page: number
+  perPage: number
+  perPageOptions?: number[]
+  to: number | null
+  total: number
 }
 
 export function PaginationMolecule({
-  page,
-  lastPage,
   from,
-  to,
-  total,
-  perPage,
-  perPageOptions = [10, 25, 50, 100],
+  lastPage,
   onChange,
   onPerPageChange,
+  page,
+  perPage,
+  perPageOptions = [10, 25, 50, 100],
+  to,
+  total,
 }: Props) {
   const start = Math.max(1, Math.min(page - 2, lastPage - 4))
   const end = Math.min(lastPage, start + 4)
