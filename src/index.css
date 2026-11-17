@@ -141,3 +141,31 @@ body {
 .chat-icon-btn.dropdown-toggle::after {
   display: none;
 }
+
+.stat-card {
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--bs-box-shadow) !important;
+}
+
+.stat-icon {
+  align-items: center;
+  border-radius: 0.75rem;
+  display: flex;
+  flex-shrink: 0;
+  height: 3rem;
+  justify-content: center;
+  width: 3rem;
+}
+
+.legend-dot {
+  border-radius: 50%;
+  display: inline-block;
+  height: 0.7rem;
+  width: 0.7rem;
+}

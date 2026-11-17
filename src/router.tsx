@@ -12,6 +12,7 @@ import { BranchFormPage } from '@/features/branches/BranchFormPage'
 import { BranchPage } from '@/features/branches/BranchPage'
 import { CategoryFormPage } from '@/features/categories/CategoryFormPage'
 import { CategoryPage } from '@/features/categories/CategoryPage'
+import { DashboardPage } from '@/features/dashboard/DashboardPage'
 import { HandoverDetailPage } from '@/features/handovers/HandoverDetailPage'
 import { HandoverFormPage } from '@/features/handovers/HandoverFormPage'
 import { HandoverPage } from '@/features/handovers/HandoverPage'
@@ -41,11 +42,12 @@ export const router = createBrowserRouter([
       {
         element: <AppLayoutTemplate />,
         children: [
-          { index: true, element: <Navigate to="/categories" replace /> },
+          { index: true, element: <Navigate to="/dashboard" replace /> },
           { path: 'adjustments', element: <AdjustmentPage /> },
           { path: 'adjustments/:id', element: <AdjustmentDetailPage /> },
           { path: 'branches', element: <BranchPage /> },
           { path: 'categories', element: <CategoryPage /> },
+          { path: 'dashboard', element: <DashboardPage /> },
           { path: 'handovers', element: <HandoverPage /> },
           { path: 'handovers/:id', element: <HandoverDetailPage /> },
           { path: 'inventories', element: <InventoryPage /> },

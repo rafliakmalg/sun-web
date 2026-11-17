@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { Alert } from 'react-bootstrap'
-import type { ChatMessage } from '@/features/assistant/types'
 import { ChatMessageMolecule } from '@/components/molecules/ChatMessageMolecule'
+import type { ChatMessage } from '@/features/assistant/types'
 
 type Props = {
   busy: boolean

@@ -1,4 +1,4 @@
-import { ArrowLeftRight, Box, Boxes, BoxSeam, Building, Gear, Grid3x3Gap, Layers, People, Rulers, ShieldLock, Shop, Sliders, Tags, Truck, type Icon } from 'react-bootstrap-icons'
+import { ArrowLeftRight, Box, Boxes, BoxSeam, Building, Gear, Grid3x3Gap, Layers, People, Rulers, ShieldLock, Shop, Sliders, Speedometer2, Tags, Truck, type Icon } from 'react-bootstrap-icons'
 import { canAccess } from '@/utils'
 
 export type MenuItem = {
@@ -16,6 +16,13 @@ export type MenuGroup = {
 }
 
 export const menu: MenuGroup[] = [
+  {
+    label: 'dashboard',
+    icon: Speedometer2,
+    items: [
+      { to: '/dashboard', label: 'dashboard', icon: Speedometer2 },
+    ],
+  },
   {
     label: 'master',
     icon: Box,
