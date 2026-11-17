@@ -6,7 +6,7 @@ import { LoadingMolecule } from '@/components/molecules/LoadingMolecule'
 import { PageHeaderMolecule } from '@/components/molecules/PageHeaderMolecule'
 import { AdjustmentCancelDialogOrganism } from '@/components/organisms/AdjustmentCancelDialogOrganism'
 import { DataTableOrganism } from '@/components/organisms/DataTableOrganism'
-import { useTranslate } from '@/utils'
+import { formatDateTime, useTranslate } from '@/utils'
 import { useLoadAdjustment } from './api'
 import { adjustmentItemColumns, statusColors } from './columns'
 
@@ -57,7 +57,7 @@ export function AdjustmentDetailPage() {
               <Badge bg={statusColors[adjustment.status] ?? 'secondary'}>{t(`adjustment.status.${adjustment.status}`)}</Badge>
             </dd>
             <dt className="col-sm-3">{t('adjustment.created_at')}</dt>
-            <dd className="col-sm-9">{new Date(adjustment.created_at).toLocaleString('sv-SE')}</dd>
+            <dd className="col-sm-9">{formatDateTime(adjustment.created_at)}</dd>
             <dt className="col-sm-3">{t('adjustment.note')}</dt>
             <dd className="col-sm-9 mb-0">{adjustment.note ?? '-'}</dd>
           </dl>

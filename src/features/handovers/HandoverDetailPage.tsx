@@ -6,7 +6,7 @@ import { LoadingMolecule } from '@/components/molecules/LoadingMolecule'
 import { PageHeaderMolecule } from '@/components/molecules/PageHeaderMolecule'
 import { DataTableOrganism } from '@/components/organisms/DataTableOrganism'
 import { HandoverActionDialogOrganism, type HandoverAction } from '@/components/organisms/HandoverActionDialogOrganism'
-import { useTranslate } from '@/utils'
+import { formatDateTime, useTranslate } from '@/utils'
 import { useLoadHandover } from './api'
 import { handoverItemColumns, handoverLogColumns, statusColors } from './columns'
 
@@ -67,7 +67,7 @@ export function HandoverDetailPage() {
             <dt className="col-sm-3">{t('handover.custody_id')}</dt>
             <dd className="col-sm-9">{handover.custody?.name}</dd>
             <dt className="col-sm-3">{t('handover.created_at')}</dt>
-            <dd className="col-sm-9">{new Date(handover.created_at).toLocaleString('sv-SE')}</dd>
+            <dd className="col-sm-9">{formatDateTime(handover.created_at)}</dd>
             <dt className="col-sm-3">{t('handover.note')}</dt>
             <dd className="col-sm-9 mb-0">{handover.note ?? '-'}</dd>
           </dl>

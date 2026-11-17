@@ -1,5 +1,6 @@
 import { keepPreviousData, QueryClient, useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import axios, { isAxiosError } from 'axios'
+import dayjs from 'dayjs'
 import qs from 'qs'
 import type { ReactNode } from 'react'
 import { Badge } from 'react-bootstrap'
@@ -110,8 +111,24 @@ export function filterKind<T>(column: ColumnDef<T>): FilterKind {
   }
 }
 
+export function formatDate(value: unknown): string {
+  return dayjs(String(value)).format('DD/MM/YYYY')
+}
+
+export function formatDateTime(value: unknown): string {
+  return dayjs(String(value)).format('DD/MM/YYYY HH:mm')
+}
+
 export function formatNumber(value: unknown, decimals = 0): string {
   return new Intl.NumberFormat('id-ID', { maximumFractionDigits: decimals }).format(Number(value))
+}
+
+export function formatTime(value: unknown): string {
+  if (timeOnly.test(String(value))) {
+    return String(value).slice(0, 5)
+  }
+
+  return dayjs(String(value)).format('HH:mm')
 }
 
 function formatValue(value: unknown, type: ColumnType, column: { decimals?: number; labels?: [string, string] }) {
@@ -119,11 +136,11 @@ function formatValue(value: unknown, type: ColumnType, column: { decimals?: numb
     case 'number':
       return formatNumber(value, column.decimals)
     case 'date':
-      return new Date(String(value)).toLocaleDateString('sv-SE')
+      return formatDate(value)
     case 'time':
-      return timeOnly.test(String(value)) ? String(value).padEnd(8, ':00') : new Date(String(value)).toLocaleTimeString('sv-SE')
+      return formatTime(value)
     case 'datetime':
-      return new Date(String(value)).toLocaleString('sv-SE')
+      return formatDateTime(value)
     case 'boolean': {
       const [yes, no] = column.labels ?? ['Ya', 'Tidak']
 
@@ -136,6 +153,10 @@ function formatValue(value: unknown, type: ColumnType, column: { decimals?: numb
 
 export function issue(key: string, attribute: string) {
   return translate(key, { attribute: translate(attribute) })
+}
+
+export function isValidationError(error: unknown): boolean {
+  return isAxiosError(error) && error.response?.status === 422
 }
 
 export type FieldProps<T extends FieldValues> = {
@@ -197,12 +218,6 @@ export const operatorsByKind: Record<FilterKind, FilterOperator[]> = {
   option: ['eq', 'ne'],
 }
 
-export function isValidationError(error: unknown): boolean {
-  return isAxiosError(error) && error.response?.status === 422
-}
-
-export type Params = Record<string, string | number>
-
 function message(key: string, attribute: string, params: Params = {}) {
   return {
     error: () =>
@@ -212,6 +227,8 @@ function message(key: string, attribute: string, params: Params = {}) {
       }),
   }
 }
+
+export type Params = Record<string, string | number>
 
 export function onSavedElsewhere(handler: (message?: string) => void) {
   const listener = (event: MessageEvent) => {
