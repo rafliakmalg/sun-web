@@ -102,3 +102,22 @@ body {
     white-space: nowrap;
   }
 }
+
+.chat-bubble {
+  max-width: 85%;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.chat-tool-args {
+  max-height: 180px;
+  overflow: auto;
+  font-size: 0.8rem;
+}
+
+.chat-launcher {
+  position: fixed;
+  right: 1.5rem;
+  bottom: 1.5rem;
+  z-index: 1030;
+}

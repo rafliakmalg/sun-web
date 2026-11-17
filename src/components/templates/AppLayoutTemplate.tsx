@@ -3,6 +3,7 @@ import { useEffect } from 'react'
 import { Button } from 'react-bootstrap'
 import { BoxArrowRight } from 'react-bootstrap-icons'
 import { Outlet } from 'react-router'
+import { ChatPanelOrganism } from '@/components/organisms/ChatPanelOrganism'
 import { SidebarOrganism } from '@/components/organisms/SidebarOrganism'
 import { logout, useSession } from '@/features/auth/api'
 import { useAuth } from '@/stores/auth'
@@ -53,6 +54,7 @@ export function AppLayoutTemplate() {
           <Outlet />
         </main>
       </div>
+      <ChatPanelOrganism />
     </div>
   )
 }
