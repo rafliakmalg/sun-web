@@ -29,7 +29,7 @@ export function ChatInputMolecule({ disabled, onSend }: Props) {
   }
 
   return (
-    <div className="d-flex gap-2 align-items-end">
+    <div className="d-flex gap-2 align-items-center">
       <Form.Control
         as="textarea"
         disabled={disabled}
@@ -38,12 +38,15 @@ export function ChatInputMolecule({ disabled, onSend }: Props) {
         onKeyDown={onKeyDown}
         placeholder="Tanyakan stok, pemindahan, atau penyesuaian..."
         rows={2}
+        style={{ resize: 'none' }}
         value={text}
       />
       <Button
         aria-label="Kirim"
+        className="d-inline-flex align-items-center justify-content-center flex-shrink-0 p-0"
         disabled={disabled || text.trim() === ''}
         onClick={submit}
+        style={{ height: '2.75rem', width: '2.75rem' }}
       >
         <SendFill />
       </Button>

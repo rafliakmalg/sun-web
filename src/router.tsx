@@ -4,6 +4,7 @@ import { FormLayoutTemplate } from '@/components/templates/FormLayoutTemplate'
 import { AdjustmentDetailPage } from '@/features/adjustments/AdjustmentDetailPage'
 import { AdjustmentFormPage } from '@/features/adjustments/AdjustmentFormPage'
 import { AdjustmentPage } from '@/features/adjustments/AdjustmentPage'
+import { AssistantPage } from '@/features/assistant/AssistantPage'
 import { LoginPage } from '@/features/auth/LoginPage'
 import { RequireAuth } from '@/features/auth/RequireAuth'
 import { RequireRole } from '@/features/auth/RequireRole'
@@ -35,6 +36,8 @@ export const router = createBrowserRouter([
   {
     element: <RequireAuth />,
     children: [
+      { path: 'assistant', element: <AssistantPage /> },
+      { path: 'assistant/:id', element: <AssistantPage /> },
       {
         element: <AppLayoutTemplate />,
         children: [

@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Button, Offcanvas } from 'react-bootstrap'
-import { ChatDotsFill, PlusLg } from 'react-bootstrap-icons'
+import { ArrowsFullscreen, ChatDotsFill, PlusLg } from 'react-bootstrap-icons'
+import { useNavigate } from 'react-router'
 import { ChatHistoryMolecule } from '@/components/molecules/ChatHistoryMolecule'
 import { ChatInputMolecule } from '@/components/molecules/ChatInputMolecule'
 import { useReadConversations } from '@/features/assistant/api'
@@ -10,6 +11,7 @@ import { ChatMessageListOrganism } from './ChatMessageListOrganism'
 export function ChatPanelOrganism() {
   const [open, setOpen] = useState(false)
   const chat = useChatStream()
+  const navigate = useNavigate()
   const { data } = useReadConversations(open)
 
   return (
@@ -29,19 +31,32 @@ export function ChatPanelOrganism() {
         placement="end"
         scroll
         show={open}
-        style={{ width: 440, maxWidth: '100vw' }}
+        style={{
+          width: 440,
+          maxWidth: '100vw',
+        }}
       >
         <Offcanvas.Header closeButton>
           <Offcanvas.Title className="me-auto">Asisten WMS</Offcanvas.Title>
           <div className="d-flex gap-2 me-2">
             <Button
               aria-label="Percakapan baru"
+              className="chat-icon-btn"
               disabled={chat.busy}
               onClick={chat.reset}
               size="sm"
               variant="outline-secondary"
             >
               <PlusLg />
+            </Button>
+            <Button
+              aria-label="Buka layar penuh"
+              className="chat-icon-btn"
+              onClick={() => navigate(chat.conversationId ? `/assistant/${chat.conversationId}` : '/assistant')}
+              size="sm"
+              variant="outline-secondary"
+            >
+              <ArrowsFullscreen />
             </Button>
             <ChatHistoryMolecule
               activeId={chat.conversationId}

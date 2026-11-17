@@ -13,12 +13,17 @@ export function ChatHistoryMolecule({ activeId, conversations, onSelect }: Props
     <Dropdown align="end">
       <Dropdown.Toggle
         aria-label="Riwayat percakapan"
+        className="chat-icon-btn"
         size="sm"
         variant="outline-secondary"
       >
         <ClockHistory />
       </Dropdown.Toggle>
-      <Dropdown.Menu style={{ maxHeight: 360, maxWidth: 320, overflowY: 'auto' }}>
+      <Dropdown.Menu style={{
+        maxHeight: 360,
+        maxWidth: 320,
+        overflowY: 'auto',
+      }}>
         {conversations.length === 0 && <Dropdown.ItemText className="text-muted">Belum ada percakapan.</Dropdown.ItemText>}
         {conversations.map((conversation) => (
           <Dropdown.Item
