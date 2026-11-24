@@ -81,10 +81,6 @@ export function applyApiErrors<T extends FieldValues>(error: unknown, setError: 
   setError('root', { message: errorMessage(error) })
 }
 
-export function canAccess(role: string | undefined, allowed?: string[]): boolean {
-  return !allowed || (!!role && allowed.includes(role))
-}
-
 export function errorMessage(error: unknown): string {
   if (isAxiosError<ApiError>(error)) {
     return error.response?.data?.message ?? 'Tidak dapat terhubung ke server.'
@@ -170,6 +166,7 @@ export type FieldProps<T extends FieldValues> = {
 }
 
 export type FieldOption = {
+  group?: string
   label: string
   value: string
 }

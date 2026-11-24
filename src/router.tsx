@@ -1,3 +1,4 @@
+import type { ReactElement } from 'react'
 import { createBrowserRouter, Navigate } from 'react-router'
 import { AppLayoutTemplate } from '@/components/templates/AppLayoutTemplate'
 import { FormLayoutTemplate } from '@/components/templates/FormLayoutTemplate'
@@ -7,7 +8,7 @@ import { AdjustmentPage } from '@/features/adjustments/AdjustmentPage'
 import { AssistantPage } from '@/features/assistant/AssistantPage'
 import { LoginPage } from '@/features/auth/LoginPage'
 import { RequireAuth } from '@/features/auth/RequireAuth'
-import { RequireRole } from '@/features/auth/RequireRole'
+import { RequirePermission } from '@/features/auth/RequirePermission'
 import { BranchFormPage } from '@/features/branches/BranchFormPage'
 import { BranchPage } from '@/features/branches/BranchPage'
 import { CategoryFormPage } from '@/features/categories/CategoryFormPage'
@@ -32,6 +33,10 @@ import { UserPage } from '@/features/users/UserPage'
 import { WarehouseFormPage } from '@/features/warehouses/WarehouseFormPage'
 import { WarehousePage } from '@/features/warehouses/WarehousePage'
 
+function guard(permission: string, element: ReactElement) {
+  return <RequirePermission permission={permission}>{element}</RequirePermission>
+}
+
 export const router = createBrowserRouter([
   { path: '/login', element: <LoginPage /> },
   {
@@ -43,55 +48,45 @@ export const router = createBrowserRouter([
         element: <AppLayoutTemplate />,
         children: [
           { index: true, element: <Navigate to="/dashboard" replace /> },
-          { path: 'adjustments', element: <AdjustmentPage /> },
-          { path: 'adjustments/:id', element: <AdjustmentDetailPage /> },
-          { path: 'branches', element: <BranchPage /> },
-          { path: 'categories', element: <CategoryPage /> },
-          { path: 'dashboard', element: <DashboardPage /> },
-          { path: 'handovers', element: <HandoverPage /> },
-          { path: 'handovers/:id', element: <HandoverDetailPage /> },
-          { path: 'inventories', element: <InventoryPage /> },
-          { path: 'movements', element: <MovementPage /> },
-          { path: 'products', element: <ProductPage /> },
-          { path: 'racks', element: <RackPage /> },
-          { path: 'units', element: <UnitPage /> },
-          { path: 'warehouses', element: <WarehousePage /> },
-          {
-            element: <RequireRole allow={['admin']} />,
-            children: [
-              { path: 'roles', element: <RolePage /> },
-              { path: 'users', element: <UserPage /> },
-            ],
-          },
+          { path: 'adjustments', element: guard('adjustment.read', <AdjustmentPage />) },
+          { path: 'adjustments/:id', element: guard('adjustment.read', <AdjustmentDetailPage />) },
+          { path: 'branches', element: guard('branch.read', <BranchPage />) },
+          { path: 'categories', element: guard('category.read', <CategoryPage />) },
+          { path: 'dashboard', element: guard('dashboard.read', <DashboardPage />) },
+          { path: 'handovers', element: guard('handover.read', <HandoverPage />) },
+          { path: 'handovers/:id', element: guard('handover.read', <HandoverDetailPage />) },
+          { path: 'inventories', element: guard('inventory.read', <InventoryPage />) },
+          { path: 'movements', element: guard('movement.read', <MovementPage />) },
+          { path: 'products', element: guard('product.read', <ProductPage />) },
+          { path: 'racks', element: guard('rack.read', <RackPage />) },
+          { path: 'roles', element: guard('role.read', <RolePage />) },
+          { path: 'units', element: guard('unit.read', <UnitPage />) },
+          { path: 'users', element: guard('user.read', <UserPage />) },
+          { path: 'warehouses', element: guard('warehouse.read', <WarehousePage />) },
         ],
       },
       {
         element: <FormLayoutTemplate />,
         children: [
-          { path: 'adjustments/create', element: <AdjustmentFormPage /> },
-          { path: 'branches/create', element: <BranchFormPage /> },
-          { path: 'branches/:id/edit', element: <BranchFormPage /> },
-          { path: 'categories/create', element: <CategoryFormPage /> },
-          { path: 'categories/:id/edit', element: <CategoryFormPage /> },
-          { path: 'handovers/create', element: <HandoverFormPage /> },
-          { path: 'movements/create', element: <MovementFormPage /> },
-          { path: 'products/create', element: <ProductFormPage /> },
-          { path: 'products/:id/edit', element: <ProductFormPage /> },
-          { path: 'racks/create', element: <RackFormPage /> },
-          { path: 'racks/:id/edit', element: <RackFormPage /> },
-          { path: 'units/create', element: <UnitFormPage /> },
-          { path: 'units/:id/edit', element: <UnitFormPage /> },
-          { path: 'warehouses/create', element: <WarehouseFormPage /> },
-          { path: 'warehouses/:id/edit', element: <WarehouseFormPage /> },
-          {
-            element: <RequireRole allow={['admin']} />,
-            children: [
-              { path: 'roles/create', element: <RoleFormPage /> },
-              { path: 'roles/:id/edit', element: <RoleFormPage /> },
-              { path: 'users/create', element: <UserFormPage /> },
-              { path: 'users/:id/edit', element: <UserFormPage /> },
-            ],
-          },
+          { path: 'adjustments/create', element: guard('adjustment.create', <AdjustmentFormPage />) },
+          { path: 'branches/create', element: guard('branch.create', <BranchFormPage />) },
+          { path: 'branches/:id/edit', element: guard('branch.update', <BranchFormPage />) },
+          { path: 'categories/create', element: guard('category.create', <CategoryFormPage />) },
+          { path: 'categories/:id/edit', element: guard('category.update', <CategoryFormPage />) },
+          { path: 'handovers/create', element: guard('handover.create', <HandoverFormPage />) },
+          { path: 'movements/create', element: guard('movement.create', <MovementFormPage />) },
+          { path: 'products/create', element: guard('product.create', <ProductFormPage />) },
+          { path: 'products/:id/edit', element: guard('product.update', <ProductFormPage />) },
+          { path: 'racks/create', element: guard('rack.create', <RackFormPage />) },
+          { path: 'racks/:id/edit', element: guard('rack.update', <RackFormPage />) },
+          { path: 'roles/create', element: guard('role.create', <RoleFormPage />) },
+          { path: 'roles/:id/edit', element: guard('role.update', <RoleFormPage />) },
+          { path: 'units/create', element: guard('unit.create', <UnitFormPage />) },
+          { path: 'units/:id/edit', element: guard('unit.update', <UnitFormPage />) },
+          { path: 'users/create', element: guard('user.create', <UserFormPage />) },
+          { path: 'users/:id/edit', element: guard('user.update', <UserFormPage />) },
+          { path: 'warehouses/create', element: guard('warehouse.create', <WarehouseFormPage />) },
+          { path: 'warehouses/:id/edit', element: guard('warehouse.update', <WarehouseFormPage />) },
         ],
       },
     ],

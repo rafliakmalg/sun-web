@@ -62,7 +62,7 @@ export function AssistantPage() {
         </ListGroup>
         <div className="p-3 border-top small text-truncate">
           <div className="fw-semibold">{user?.name}</div>
-          <div className="text-muted">{user?.role?.label}</div>
+          <div className="text-muted">{user?.roles?.map((role) => role.label).join(', ')}</div>
         </div>
       </aside>
       <main className="flex-grow-1 d-flex flex-column bg-light" style={{ minWidth: 0 }}>

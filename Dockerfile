@@ -5,8 +5,6 @@ RUN npm ci
 COPY . .
 # VITE_* are baked in at build time
 ARG VITE_API_URL
-ARG VITE_SITE
-ARG VITE_WMS_API_URL
 ARG VITE_ASSISTANT_SITE
 ARG VITE_ASSISTANT_URL
 RUN npm run build

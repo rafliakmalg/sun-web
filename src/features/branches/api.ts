@@ -1,7 +1,7 @@
 import { useGet, useOptions, useSend, type ListParams, type Paginated } from '@/utils'
 import type { Branch, BranchInput } from './schema'
 
-const path = '/branches'
+const path = '/wms/branches'
 
 export function useBranchOptions(search: string, enabled: boolean) {
   return useOptions(path, 'name', search, enabled)

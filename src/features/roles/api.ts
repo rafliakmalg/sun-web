@@ -1,7 +1,7 @@
-import { useGet, useOptions, useSend, type ListParams, type Paginated } from '@/utils'
-import type { Role, RoleInput } from './schema'
+import { useGet, useOptions, useSend, type ListParams, type OptionResult, type Paginated } from '@/utils'
+import type { Permission, Role, RoleInput } from './schema'
 
-const path = '/roles'
+const path = '/auth/roles'
 
 export function useDeleteRole() {
   return useSend<Role>('delete', (role) => `${path}/${role.id}`, [path])
@@ -9,6 +9,23 @@ export function useDeleteRole() {
 
 export function useLoadRole(id: string | undefined) {
   return useGet<{ data: Role }>(`${path}/${id}`, {}, { enabled: !!id })
+}
+
+export function usePermissionOptions(): OptionResult {
+  const { data, isFetching } = useGet<{ data: Permission[] }>('/auth/permissions')
+
+  return {
+    loading: isFetching,
+    options: (data?.data ?? []).map((permission) => {
+      const [resource, action] = permission.name.split('.')
+
+      return {
+        group: resource,
+        label: `permission.action.${action}`,
+        value: String(permission.id),
+      }
+    }),
+  }
 }
 
 export function useReadRole(params: ListParams) {

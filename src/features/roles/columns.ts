@@ -15,6 +15,12 @@ export const roleColumns: ColumnDef<Role>[] = [
     filterable: true,
   },
   {
+    key: 'permissions',
+    header: 'role.permission_ids',
+    type: 'number',
+    render: (role) => role.permissions?.length ?? 0,
+  },
+  {
     key: 'created_at',
     header: 'role.created_at',
     type: 'datetime',

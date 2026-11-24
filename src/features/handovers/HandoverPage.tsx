@@ -1,8 +1,11 @@
 import { ListTemplate } from '@/components/templates/ListTemplate'
+import { useCan } from '@/features/auth/useCan'
 import { useReadHandover } from './api'
 import { handoverColumns } from './columns'
 
 export function HandoverPage() {
+  const can = useCan()
+
   return (
     <ListTemplate
       title="handover"
@@ -10,10 +13,10 @@ export function HandoverPage() {
       defSort="created_at"
       defSortDir="desc"
       useList={useReadHandover}
-      canCreate
+      canCreate={can('handover.create')}
       urlCreate="/handovers/create"
       createLabel="handover.action.take"
-      canView
+      canView={can('handover.read')}
       urlView={(handover) => `/handovers/${handover.id}`}
     />
   )

@@ -7,11 +7,11 @@ import { useAuth } from '@/stores/auth'
 import { useSidebar } from '@/stores/sidebar'
 
 export function SidebarOrganism() {
-  const role = useAuth((state) => state.user?.role?.name)
+  const permissions = useAuth((state) => state.permissions)
   const collapsed = useSidebar((state) => state.collapsed)
   const toggleCollapsed = useSidebar((state) => state.toggleCollapsed)
   const { pathname } = useLocation()
-  const groups = visibleMenu(role)
+  const groups = visibleMenu(permissions)
 
   return (
     <aside className={`sidebar bg-dark text-white p-3 ${collapsed ? 'collapsed' : ''}`}>

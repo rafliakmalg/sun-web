@@ -1,10 +1,10 @@
 import { useGet, useSend, type ListParams, type Paginated } from '@/utils'
 import type { Adjustment, AdjustmentPayload } from './schema'
 
-const path = '/adjustments'
+const path = '/wms/adjustments'
 
 export function useCancelAdjustment(id: number) {
-  return useSend('post', `${path}/${id}/cancel`, [path, `${path}/${id}`, '/inventories', '/movements'])
+  return useSend('post', `${path}/${id}/cancel`, [path, `${path}/${id}`, '/wms/inventories', '/wms/movements'])
 }
 
 export function useLoadAdjustment(id: string | undefined) {
@@ -16,5 +16,5 @@ export function useReadAdjustment(params: ListParams) {
 }
 
 export function useSaveAdjustment() {
-  return useSend<AdjustmentPayload>('post', path, [path, '/inventories', '/movements'])
+  return useSend<AdjustmentPayload>('post', path, [path, '/wms/inventories', '/wms/movements'])
 }

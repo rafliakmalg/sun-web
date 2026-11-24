@@ -40,7 +40,7 @@ export function AppLayoutTemplate() {
         <header className="bg-white border-bottom px-4 py-2 d-flex justify-content-end align-items-center gap-3">
           <span>
             {user?.name}
-            {user?.role && <small className="text-muted"> ({user.role.label})</small>}
+            {!!user?.roles?.length && <small className="text-muted"> ({user.roles.map((role) => role.label).join(', ')})</small>}
           </span>
           <Button
             size="sm"

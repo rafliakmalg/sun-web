@@ -1,7 +1,7 @@
 import { useGet, useOptions, useSend, type ListParams, type Paginated } from '@/utils'
 import type { Unit, UnitInput } from './schema'
 
-const path = '/units'
+const path = '/wms/units'
 
 export function useDeleteUnit() {
   return useSend<Unit>('delete', (unit) => `${path}/${unit.id}`, [path])

@@ -20,13 +20,13 @@ type BaseProps<T> = {
   useList: (params: ListParams) => { data?: Paginated<T>; isPending: boolean; error: unknown }
 }
 
-type CreateProps = { canCreate?: false } | { canCreate: true; urlCreate: string; createLabel?: string }
+type CreateProps = { canCreate?: undefined } | { canCreate: boolean; urlCreate: string; createLabel?: string }
 
-type ViewProps<T> = { canView?: false } | { canView: true; urlView: (item: T) => string }
+type ViewProps<T> = { canView?: undefined } | { canView: boolean; urlView: (item: T) => string }
 
-type EditProps<T> = { canEdit?: false } | { canEdit: true; urlEdit: (item: T) => string }
+type EditProps<T> = { canEdit?: undefined } | { canEdit: boolean; urlEdit: (item: T) => string }
 
-type DeleteProps<T> = { canDelete?: false } | { canDelete: true; useDelete: DeleteHook<T>; itemName: (item: T) => string }
+type DeleteProps<T> = { canDelete?: undefined } | { canDelete: boolean; useDelete: DeleteHook<T>; itemName: (item: T) => string }
 
 type Props<T> = BaseProps<T> & CreateProps & ViewProps<T> & EditProps<T> & DeleteProps<T>
 

@@ -1,7 +1,7 @@
 import { useGet, useOptions, useSend, type ListParams, type Paginated } from '@/utils'
 import type { Category, CategoryInput } from './schema'
 
-const path = '/categories'
+const path = '/wms/categories'
 
 export function useCategoryOptions(search: string, enabled: boolean) {
   return useOptions(path, 'name', search, enabled)

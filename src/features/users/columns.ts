@@ -22,11 +22,11 @@ export const userColumns: ColumnDef<User>[] = [
     filterable: true,
   },
   {
-    key: 'role_id',
-    header: 'user.role_id',
+    key: 'roles.id',
+    header: 'user.role_ids',
     filterable: true,
     useOptions: useRoleOptions,
-    render: (user) => user.role?.label,
+    render: (user) => user.roles?.map((role) => role.label).join(', '),
   },
   {
     key: 'active',

@@ -6,6 +6,7 @@ import { LoadingMolecule } from '@/components/molecules/LoadingMolecule'
 import { PageHeaderMolecule } from '@/components/molecules/PageHeaderMolecule'
 import { DataTableOrganism } from '@/components/organisms/DataTableOrganism'
 import { HandoverActionDialogOrganism, type HandoverAction } from '@/components/organisms/HandoverActionDialogOrganism'
+import { useCan } from '@/features/auth/useCan'
 import { formatDateTime, useTranslate } from '@/utils'
 import { useLoadHandover } from './api'
 import { handoverItemColumns, handoverLogColumns, statusColors } from './columns'
@@ -25,6 +26,7 @@ export function HandoverDetailPage() {
   const { data, isPending, error } = useLoadHandover(id)
   const navigate = useNavigate()
   const t = useTranslate()
+  const can = useCan()
   const [action, setAction] = useState<HandoverAction | null>(null)
 
   if (error) {
@@ -45,7 +47,7 @@ export function HandoverDetailPage() {
           <Button variant="outline-secondary" onClick={() => navigate('/handovers')}>
             Kembali
           </Button>
-          {availableActions(handover.status).map((item) => (
+          {availableActions(handover.status).filter((item) => can(`handover.${item}`)).map((item) => (
             <Button
               key={item}
               variant={item === 'cancel' ? 'outline-danger' : item === 'complete' ? 'success' : 'primary'}

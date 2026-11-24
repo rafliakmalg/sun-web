@@ -1,10 +1,10 @@
 import { useGet, useSend, type ListParams, type Paginated } from '@/utils'
 import type { Handover, HandoverActionPayload, HandoverPayload } from './schema'
 
-const path = '/handovers'
+const path = '/wms/handovers'
 
 function refresh(id: number) {
-  return [path, `${path}/${id}`, '/inventories', '/movements']
+  return [path, `${path}/${id}`, '/wms/inventories', '/wms/movements']
 }
 
 export function useCancelHandover(id: number) {
@@ -24,7 +24,7 @@ export function useReadHandover(params: ListParams) {
 }
 
 export function useSaveHandover() {
-  return useSend<HandoverPayload>('post', path, [path, '/inventories', '/movements'])
+  return useSend<HandoverPayload>('post', path, [path, '/wms/inventories', '/wms/movements'])
 }
 
 export function useTransferHandover(id: number) {

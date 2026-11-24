@@ -1,22 +1,25 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
+export type AuthRole = {
+  id: number
+  label: string
+  name: string
+}
+
 export type AuthUser = {
   email: string | null
   id: number
   name: string
-  role?: {
-    id: number
-    name: string
-    label: string
-  }
+  roles?: AuthRole[]
   username: string
 }
 
 type AuthState = {
-  login: (token: string, user: AuthUser) => void
+  login: (token: string, user: AuthUser, permissions: string[]) => void
   logout: () => void
-  setUser: (user: AuthUser) => void
+  permissions: string[]
+  setSession: (user: AuthUser, permissions: string[]) => void
   token: string | null
   user: AuthUser | null
 }
@@ -24,15 +27,32 @@ type AuthState = {
 export const useAuth = create<AuthState>()(
   persist(
     (set) => ({
+      permissions: [],
       token: null,
       user: null,
-      login: (token, user) => set({ token, user }),
+      login: (token, user, permissions) => set({
+        permissions,
+        token,
+        user,
+      }),
       logout: () => set({
+        permissions: [],
         token: null,
         user: null,
       }),
-      setUser: (user) => set({ user }),
+      setSession: (user, permissions) => set({
+        permissions,
+        user,
+      }),
     }),
-    { name: 'auth' },
+    {
+      name: 'auth',
+      version: 2,
+      migrate: () => ({
+        permissions: [],
+        token: null,
+        user: null,
+      }),
+    },
   ),
 )

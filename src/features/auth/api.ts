@@ -8,6 +8,7 @@ import type { LoginInput } from './schema'
 type LoginResponse = {
   data: {
     lang: Messages
+    permissions: string[]
     token: string
     user: AuthUser
   }
@@ -15,6 +16,11 @@ type LoginResponse = {
 
 type SessionResponse = {
   data: AuthUser
+  lang: Messages
+  permissions: string[]
+}
+
+type WmsSessionResponse = {
   lang: Messages
 }
 
@@ -32,23 +38,38 @@ export function useLogin() {
   return useMutation({
     mutationFn: async (values: LoginInput) => {
       const response = await api.post<LoginResponse>('/auth/login', values)
+      const session = response.data.data
 
-      return response.data.data
+      const wms = await api.get<WmsSessionResponse>('/wms/auth/me', {
+        headers: { Authorization: `Bearer ${session.token}` },
+      })
+
+      return {
+        ...session,
+        lang: {
+          ...session.lang,
+          ...wms.data.lang,
+        },
+      }
     },
-    onSuccess: ({ lang, token, user }) => {
+    onSuccess: ({ lang, permissions, token, user }) => {
       useLang.getState().setMessages(lang)
-      login(token, user)
+      login(token, user, permissions)
     },
   })
 }
 
 export function useSession() {
-  const { data } = useGet<SessionResponse>('/auth/me')
+  const auth = useGet<SessionResponse>('/auth/me')
+  const wms = useGet<WmsSessionResponse>('/wms/auth/me')
 
   useEffect(() => {
-    if (data) {
-      useLang.getState().setMessages(data.lang)
-      useAuth.getState().setUser(data.data)
+    if (auth.data && wms.data) {
+      useLang.getState().setMessages({
+        ...auth.data.lang,
+        ...wms.data.lang,
+      })
+      useAuth.getState().setSession(auth.data.data, auth.data.permissions)
     }
-  }, [data])
+  }, [auth.data, wms.data])
 }

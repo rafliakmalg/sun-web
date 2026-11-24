@@ -1,7 +1,7 @@
 import { useGet, useOptions, useSend, type FilterCondition, type ListParams, type Paginated } from '@/utils'
 import type { Rack, RackInput } from './schema'
 
-const path = '/racks'
+const path = '/wms/racks'
 
 export function useDeleteRack() {
   return useSend<Rack>('delete', (rack) => `${path}/${rack.id}`, [path])

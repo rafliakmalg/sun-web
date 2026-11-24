@@ -1,7 +1,8 @@
 import { useGet, useOptions, useSend, type ListParams, type Paginated } from '@/utils'
 import type { User, UserPayload } from './schema'
 
-const path = '/users'
+const optionsPath = '/wms/users'
+const path = '/auth/users'
 
 export function useDeleteUser() {
   return useSend<User>('delete', (user) => `${path}/${user.id}`, [path])
@@ -20,5 +21,5 @@ export function useSaveUser(user: User | null) {
 }
 
 export function useUserOptions(search: string, enabled: boolean) {
-  return useOptions(path, 'name', search, enabled)
+  return useOptions(optionsPath, 'name', search, enabled)
 }

@@ -6,6 +6,7 @@ import { LoadingMolecule } from '@/components/molecules/LoadingMolecule'
 import { PageHeaderMolecule } from '@/components/molecules/PageHeaderMolecule'
 import { AdjustmentCancelDialogOrganism } from '@/components/organisms/AdjustmentCancelDialogOrganism'
 import { DataTableOrganism } from '@/components/organisms/DataTableOrganism'
+import { useCan } from '@/features/auth/useCan'
 import { formatDateTime, useTranslate } from '@/utils'
 import { useLoadAdjustment } from './api'
 import { adjustmentItemColumns, statusColors } from './columns'
@@ -15,6 +16,7 @@ export function AdjustmentDetailPage() {
   const { data, isPending, error } = useLoadAdjustment(id)
   const navigate = useNavigate()
   const t = useTranslate()
+  const can = useCan()
   const [cancelling, setCancelling] = useState(false)
 
   if (error) {
@@ -38,7 +40,7 @@ export function AdjustmentDetailPage() {
           >
             Kembali
           </Button>
-          {adjustment.status === 'active' && (
+          {adjustment.status === 'active' && can('adjustment.cancel') && (
             <Button
               variant="outline-danger"
               onClick={() => setCancelling(true)}

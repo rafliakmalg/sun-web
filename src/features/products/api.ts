@@ -1,7 +1,7 @@
 import { useGet, useOptions, useSend, type ListParams, type Paginated } from '@/utils'
 import type { Product, ProductInput } from './schema'
 
-const path = '/products'
+const path = '/wms/products'
 
 export function useDeleteProduct() {
   return useSend<Product>('delete', (product) => `${path}/${product.id}`, [path])

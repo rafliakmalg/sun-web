@@ -1,7 +1,7 @@
 import { useGet, useOptions, useSend, type FilterCondition, type ListParams, type Paginated } from '@/utils'
 import type { Warehouse, WarehouseInput } from './schema'
 
-const path = '/warehouses'
+const path = '/wms/warehouses'
 
 export function useDeleteWarehouse() {
   return useSend<Warehouse>('delete', (warehouse) => `${path}/${warehouse.id}`, [path])

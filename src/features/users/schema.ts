@@ -13,7 +13,7 @@ export function userInputSchema(editing: boolean) {
     password: editing
       ? z.string().refine((value) => value === '' || value.length >= 8, rule.minString(8, 'user.password'))
       : z.string().min(1, rule.required('user.password')).min(8, rule.minString(8, 'user.password')),
-    role_id: z.string().min(1, rule.required('user.role_id')),
+    role_ids: z.array(z.string()).min(1, rule.minArray(1, 'user.role_ids')),
     username: z
       .string()
       .trim()
@@ -28,13 +28,12 @@ export const userSchema = z.object({
   created_at: z.string(),
   updated_at: z.string(),
   created_by_id: z.number().nullable(),
-  role_id: z.number(),
   updated_by_id: z.number().nullable(),
   email: z.string().nullable(),
   name: z.string(),
   username: z.string(),
   active: z.boolean(),
-  role: roleSchema.optional(),
+  roles: z.array(roleSchema).optional(),
 })
 
 export type UserInput = z.infer<ReturnType<typeof userInputSchema>>

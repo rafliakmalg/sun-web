@@ -1,6 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
-import { AutocompleteFieldMolecule } from '@/components/molecules/AutocompleteFieldMolecule'
+import { CheckboxGroupFieldMolecule } from '@/components/molecules/CheckboxGroupFieldMolecule'
 import { TextFieldMolecule } from '@/components/molecules/TextFieldMolecule'
 import { ToggleFieldMolecule } from '@/components/molecules/ToggleFieldMolecule'
 import { FormOrganism } from '@/components/organisms/FormOrganism'
@@ -16,6 +16,7 @@ type Props = {
 
 export function UserForm({ user }: Props) {
   const save = useSaveUser(user)
+  const roles = useRoleOptions('', true)
   const finish = useFinishForm('/users')
 
   const {
@@ -30,7 +31,7 @@ export function UserForm({ user }: Props) {
       email: user?.email ?? '',
       name: user?.name ?? '',
       password: '',
-      role_id: user ? String(user.role_id) : '',
+      role_ids: user?.roles?.map((role) => String(role.id)) ?? [],
       username: user?.username ?? '',
     },
   })
@@ -66,12 +67,13 @@ export function UserForm({ user }: Props) {
         label="user.email"
         type="email"
       />
-      <AutocompleteFieldMolecule
+      <CheckboxGroupFieldMolecule
         control={control}
-        name="role_id"
-        label="user.role_id"
-        useSearch={useRoleOptions}
-        initialLabel={user?.role?.label}
+        name="role_ids"
+        label="user.role_ids"
+        options={roles.options}
+        loading={roles.loading}
+        wide
       />
       <TextFieldMolecule
         control={control}
